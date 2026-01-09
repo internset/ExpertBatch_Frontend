@@ -1,1 +1,15 @@
 @import "tailwindcss";
+
+:root {
+  --font-geist-sans: var(--font-geist-sans);
+  --font-geist-mono: var(--font-geist-mono);
+}
+
+body {
+  color: #000000;
+  background: #ffffff;
+}
+
+.text-primary-black {
+  color: #000000;
+}

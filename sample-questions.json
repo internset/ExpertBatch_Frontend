@@ -1,0 +1,119 @@
+[
+  {
+    "questionText": "What is the output of `console.log(typeof null)` in JavaScript?",
+    "difficultyLevel": "MEDIUM",
+    "score": 10,
+    "correctOptionsCount": 1,
+    "options": [
+      {
+        "text": "null",
+        "isCorrect": false,
+        "score": 0
+      },
+      {
+        "text": "undefined",
+        "isCorrect": false,
+        "score": 0
+      },
+      {
+        "text": "object",
+        "isCorrect": true,
+        "score": 10
+      },
+      {
+        "text": "string",
+        "isCorrect": false,
+        "score": 0
+      }
+    ],
+    "note": "This is a JavaScript quirk - typeof null returns 'object' due to a bug in the original implementation"
+  },
+  {
+    "questionText": "Which of the following are valid ways to declare a variable in JavaScript? (Select all that apply)",
+    "difficultyLevel": "EASY",
+    "score": 15,
+    "correctOptionsCount": 3,
+    "options": [
+      {
+        "text": "var name = 'John';",
+        "isCorrect": true,
+        "score": 5
+      },
+      {
+        "text": "let age = 25;",
+        "isCorrect": true,
+        "score": 5
+      },
+      {
+        "text": "const PI = 3.14;",
+        "isCorrect": true,
+        "score": 5
+      },
+      {
+        "text": "variable count = 10;",
+        "isCorrect": false,
+        "score": 0
+      }
+    ],
+    "note": "var, let, and const are valid variable declarations. 'variable' is not a valid keyword."
+  },
+  {
+    "questionText": "What is the time complexity of accessing an element by index in a Python list?",
+    "difficultyLevel": "MEDIUM",
+    "score": 12,
+    "correctOptionsCount": 1,
+    "options": [
+      {
+        "text": "O(1) - Constant time",
+        "isCorrect": true,
+        "score": 12
+      },
+      {
+        "text": "O(n) - Linear time",
+        "isCorrect": false,
+        "score": 0
+      },
+      {
+        "text": "O(log n) - Logarithmic time",
+        "isCorrect": false,
+        "score": 0
+      },
+      {
+        "text": "O(n²) - Quadratic time",
+        "isCorrect": false,
+        "score": 0
+      }
+    ],
+    "note": "Python lists are implemented as dynamic arrays, allowing O(1) index access."
+  },
+  {
+    "questionText": "Which HTTP methods are considered safe and idempotent? (Select all that apply)",
+    "difficultyLevel": "HARD",
+    "score": 20,
+    "correctOptionsCount": 2,
+    "options": [
+      {
+        "text": "GET",
+        "isCorrect": true,
+        "score": 10
+      },
+      {
+        "text": "POST",
+        "isCorrect": false,
+        "score": 0
+      },
+      {
+        "text": "PUT",
+        "isCorrect": true,
+        "score": 10
+      },
+      {
+        "text": "DELETE",
+        "isCorrect": false,
+        "score": 0
+      }
+    ],
+    "note": "GET is safe and idempotent. PUT is idempotent but not safe. POST and DELETE are neither safe nor idempotent."
+  }
+]
+

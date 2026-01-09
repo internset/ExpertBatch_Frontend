@@ -1,0 +1,250 @@
+/* Admin Design System CSS Classes */
+
+/* Buttons */
+.admin-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 0.25rem;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.admin-btn-primary {
+  background-color: #ED2024;
+  color: white;
+  border-color: #ED2024;
+}
+
+.admin-btn-primary:hover {
+  background-color: #C91A1A;
+}
+
+.admin-btn-secondary {
+  background-color: white;
+  color: #000000;
+  border-color: rgba(0, 0, 0, 0.125);
+}
+
+.admin-btn-secondary:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+  border-color: #ED2024;
+}
+
+.admin-btn-danger {
+  background-color: #dc2626;
+  color: white;
+  border-color: #dc2626;
+}
+
+.admin-btn-danger:hover {
+  background-color: #b91c1c;
+}
+
+.admin-btn:disabled {
+  background-color: #e5e7eb;
+  color: #9ca3af;
+  cursor: not-allowed;
+  border-color: #e5e7eb;
+}
+
+/* Cards */
+.admin-card {
+  border-radius: 0.25rem;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  background-color: white;
+}
+
+.admin-card-header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  padding: 1rem 1.5rem;
+}
+
+.admin-card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #000000;
+}
+
+@media (min-width: 768px) {
+  .admin-card-title {
+    font-size: 1.2rem;
+  }
+}
+
+.admin-card-content {
+  padding: 1.5rem;
+}
+
+/* Badges */
+.admin-badge {
+  display: inline-flex;
+  border-radius: 3.15rem;
+  padding: 0.45rem 0.5rem;
+  font-size: 0.65rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.admin-badge-status-active {
+  background-color: #E6F7F0;
+  color: #0A6B47;
+}
+
+.admin-badge-status-pending {
+  background-color: #FFEFC2;
+  color: #8C5A00;
+}
+
+.admin-badge-status-blocked {
+  background-color: rgb(254, 226, 226);
+  color: rgb(153, 27, 27);
+}
+
+.admin-badge-role-student {
+  background-color: #E3F6FB;
+  color: #0E5E7A;
+}
+
+.admin-badge-role-admin {
+  background-color: rgb(243, 232, 255);
+  color: rgb(107, 33, 168);
+}
+
+.admin-badge-role-superadmin {
+  background-color: rgb(224, 231, 255);
+  color: rgb(55, 48, 163);
+}
+
+/* Inputs */
+.admin-input {
+  width: 100%;
+  border-radius: 0.25rem;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  background-color: white;
+  padding: 0.625rem 1rem;
+  font-size: 0.9rem;
+  color: #000000;
+}
+
+.admin-input::placeholder {
+  color: #999;
+}
+
+.admin-input:focus {
+  outline: none;
+  border-color: #ED2024;
+  ring: 2px;
+  ring-color: rgba(237, 32, 36, 0.2);
+}
+
+.admin-input-error {
+  border-color: #ef4444;
+}
+
+.admin-input-error:focus {
+  border-color: #ef4444;
+  ring-color: rgba(239, 68, 68, 0.2);
+}
+
+/* Tables */
+.admin-table {
+  min-width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table thead {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.admin-table th {
+  padding: 0.75rem 1.5rem;
+  text-align: left;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #000000;
+}
+
+.admin-table tbody {
+  background-color: white;
+}
+
+.admin-table tbody tr {
+  border-top: 1px solid rgba(0, 0, 0, 0.125);
+  transition: background-color 0.2s;
+}
+
+.admin-table tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.admin-table td {
+  padding: 1rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #000000;
+  white-space: nowrap;
+}
+
+/* Container */
+.admin-container {
+  margin: 0 auto;
+  max-width: 87rem;
+  padding: 0 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .admin-container {
+    padding: 0 2.5rem;
+    padding-top: 3rem;
+  }
+}
+
+@media (min-width: 87rem) {
+  .admin-container {
+    padding: 0 0.75rem;
+  }
+}
+
+/* Grid */
+.admin-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .admin-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .admin-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Sidebar */
+.admin-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: white;
+  border-right: 1px solid #e5e7eb;
+  z-index: 50;
+  transition: all 0.3s;
+  width: 16rem;
+}
+
+.admin-sidebar-closed {
+  width: 3rem;
+}
+
