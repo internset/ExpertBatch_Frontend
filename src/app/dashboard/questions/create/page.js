@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import DashboardLayout from '@/components/DashboardLayout';
 import { questionsAPI, skillsAPI, topicsAPI } from '@/lib/api';
@@ -8,7 +8,7 @@ import { getButtonClasses, getInputClasses } from '@/design-system/admin-design-
 import { FiArrowLeft } from 'react-icons/fi';
 import { RingLoader } from 'react-spinners';
 
-export default function CreateQuestionPage() {
+function CreateQuestionPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const questionId = searchParams.get('id'); // For editing existing question
@@ -412,3 +412,21 @@ export default function CreateQuestionPage() {
   );
 }
 
+export default function CreateQuestionPage() {
+  return (
+    <Suspense
+      fallback={
+        <DashboardLayout>
+          <div className="flex min-h-[60vh] items-center justify-center">
+            <div className="flex flex-col items-center gap-4">
+              <RingLoader color="#ED2024" size={60} loading={true} />
+              <p className="text-[0.9rem] font-medium text-[#666]">Loading...</p>
+            </div>
+          </div>
+        </DashboardLayout>
+      }
+    >
+      <CreateQuestionPageContent />
+    </Suspense>
+  );
+}
