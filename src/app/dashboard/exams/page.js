@@ -1,18 +1,23 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import DashboardLayout from '@/components/DashboardLayout';
+import ConfirmationModal from '@/components/ConfirmationModal';
 import { examsAPI, skillsAPI } from '@/lib/api';
-import { FiRefreshCw } from 'react-icons/fi';
+import { FiRefreshCw, FiTrash2, FiEye } from 'react-icons/fi';
 import { RingLoader } from 'react-spinners';
 
 export default function ExamsPage() {
+  const router = useRouter();
   const [exams, setExams] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [filterValue, setFilterValue] = useState('');
+  const [deleteModal, setDeleteModal] = useState({ isOpen: false, examId: null });
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     fetchExams();
@@ -49,6 +54,37 @@ export default function ExamsPage() {
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleString();
+  };
+
+  const handleDeleteClick = (examId) => {
+    setDeleteModal({ isOpen: true, examId });
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!deleteModal.examId) return;
+
+    try {
+      setIsDeleting(true);
+      setError('');
+      await examsAPI.delete(deleteModal.examId);
+      setDeleteModal({ isOpen: false, examId: null });
+      // Refresh the exams list
+      await fetchExams();
+    } catch (err) {
+      setError(err.message || 'Failed to delete exam');
+      console.error(err);
+      setDeleteModal({ isOpen: false, examId: null });
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteModal({ isOpen: false, examId: null });
+  };
+
+  const handleViewDetails = (examId) => {
+    router.push(`/dashboard/exams/${examId}`);
   };
 
   return (
@@ -146,12 +182,15 @@ export default function ExamsPage() {
                       <th className="px-6 py-3 text-left text-[0.9rem] font-semibold uppercase tracking-wider text-primary-black">
                         Submitted At
                       </th>
+                      <th className="px-6 py-3 text-left text-[0.9rem] font-semibold uppercase tracking-wider text-primary-black">
+                        Actions
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[rgba(0,0,0,0.125)] bg-white">
                     {exams.length === 0 ? (
                       <tr>
-                        <td colSpan="5" className="px-6 py-4 text-center text-gray-500">
+                        <td colSpan="6" className="px-6 py-4 text-center text-gray-500">
                           No exams found
                         </td>
                       </tr>
@@ -173,6 +212,31 @@ export default function ExamsPage() {
                           <td className="whitespace-nowrap px-6 py-4 text-[0.9rem] text-primary-black">
                             {exam.createdAt ? formatDate(exam.createdAt) : '-'}
                           </td>
+                          <td className="whitespace-nowrap px-6 py-4 text-[0.9rem] text-primary-black">
+                            <div className="flex items-center gap-2">
+                              <button
+                                onClick={() => handleViewDetails(exam.id)}
+                                className="flex items-center gap-2 rounded-[0.25rem] px-3 py-1.5 text-[0.85rem] font-medium transition-colors cursor-pointer bg-blue-50 text-blue-600 hover:bg-blue-100 hover:text-blue-700"
+                                title="View exam details"
+                              >
+                                <FiEye className="h-4 w-4" />
+                                View Details
+                              </button>
+                              <button
+                                onClick={() => handleDeleteClick(exam.id)}
+                                disabled={isDeleting}
+                                className={`flex items-center gap-2 rounded-[0.25rem] px-3 py-1.5 text-[0.85rem] font-medium transition-colors ${
+                                  isDeleting
+                                    ? "cursor-not-allowed bg-gray-100 text-gray-400"
+                                    : "cursor-pointer bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700"
+                                }`}
+                                title="Delete exam"
+                              >
+                                <FiTrash2 className="h-4 w-4" />
+                                Delete
+                              </button>
+                            </div>
+                          </td>
                         </tr>
                       ))
                     )}
@@ -183,6 +247,20 @@ export default function ExamsPage() {
           </div>
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={deleteModal.isOpen}
+        onClose={handleDeleteCancel}
+        onConfirm={handleDeleteConfirm}
+        title="Delete Exam"
+        message="Are you sure you want to delete this exam? This action cannot be undone."
+        confirmText={isDeleting ? "Deleting..." : "Delete"}
+        cancelText="Cancel"
+        confirmButtonColor="bg-red-600 hover:bg-red-700"
+        icon={FiTrash2}
+        iconColor="text-red-600"
+      />
     </DashboardLayout>
   );
 }

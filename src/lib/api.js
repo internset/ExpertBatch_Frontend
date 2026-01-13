@@ -113,6 +113,7 @@ export const examsAPI = {
   getOne: (id) => api.get(`/api/v1/exams/${id}`),
   getByUser: (userId) => api.get(`/api/v1/exams/user/${userId}`),
   getBySkill: (skillId) => api.get(`/api/v1/exams/skill/${skillId}`),
+  delete: (id) => api.delete(`/api/v1/exams/${id}`),
 };
 
 

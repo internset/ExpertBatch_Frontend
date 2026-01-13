@@ -221,7 +221,7 @@ export default function ExamPage() {
               </button>
               <button
                 onClick={handleStartExam}
-                className="px-6 py-2 bg-[#ED2024] text-white rounded hover:bg-[#C91A1A] transition-colors font-medium"
+                className="cursor-pointer px-6 py-2 bg-[#ED2024] text-white rounded hover:bg-[#C91A1A] transition-colors font-medium"
               >
                 Start Exam
               </button>
@@ -434,5 +434,9 @@ export default function ExamPage() {
     </div>
   );
 }
+
+
+
+
 
 

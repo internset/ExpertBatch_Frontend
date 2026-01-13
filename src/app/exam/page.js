@@ -138,7 +138,7 @@ export default function ExamPortalPage() {
                   <p className="text-sm text-gray-600 mb-4 line-clamp-2">{skill.description}</p>
                 )}
                 <button
-                  className="w-full mt-4 px-4 py-2 bg-[#ED2024] text-white rounded hover:bg-[#C91A1A] transition-colors font-medium"
+                  className="cursor-pointer w-full mt-4 px-4 py-2 bg-[#ED2024] text-white rounded hover:bg-[#C91A1A] transition-colors font-medium"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleStartExam(skill.id);
@@ -154,5 +154,9 @@ export default function ExamPortalPage() {
     </div>
   );
 }
+
+
+
+
 
 
