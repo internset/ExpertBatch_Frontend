@@ -47,6 +47,7 @@ export default function PublicExamPage() {
   const [showWarningModal, setShowWarningModal] = useState(false);
   const [warningAcknowledged, setWarningAcknowledged] = useState(false);
   const [cheatingAttempts, setCheatingAttempts] = useState(0);
+  const [showSubmitModal, setShowSubmitModal] = useState(false);
   
   // Refs for intervals and video
   const proctoringIntervalRef = useRef(null);
@@ -1323,10 +1324,12 @@ export default function PublicExamPage() {
 
   if (!mounted || loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="flex flex-col items-center gap-4">
-          <RingLoader color="#ED2024" size={60} loading={true} />
-          <p className="text-[0.9rem] font-medium text-[#666]">Loading exam...</p>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+        <div className="flex flex-col items-center gap-3 sm:gap-4">
+          <div className="w-[50px] h-[50px] sm:w-[60px] sm:h-[60px]">
+            <RingLoader color="#ED2024" size={60} loading={true} />
+          </div>
+          <p className="text-sm sm:text-[0.9rem] font-medium text-[#666] text-center">Loading exam...</p>
         </div>
       </div>
     );
@@ -1348,19 +1351,29 @@ export default function PublicExamPage() {
     }
   };
 
+  // Handle submit confirmation
+  const handleConfirmSubmit = () => {
+    setShowSubmitModal(false);
+    handleSubmitExam();
+  };
+
+  const handleCancelSubmit = () => {
+    setShowSubmitModal(false);
+  };
+
   // Cheating detected screen (banned)
   if (cheatingDetected) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="bg-white rounded-lg border border-red-200 p-8 max-w-2xl mx-4">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <div className="bg-white rounded-lg border border-red-200 p-4 sm:p-6 lg:p-8 max-w-2xl w-full mx-4">
           <div className="text-center">
-            <FiAlertCircle className="h-16 w-16 text-red-500 mx-auto mb-4" />
-            <h1 className="text-2xl font-bold text-red-600 mb-2">Account Banned</h1>
-            <p className="text-gray-600 mb-4">
+            <FiAlertCircle className="h-12 w-12 sm:h-16 sm:w-16 text-red-500 mx-auto mb-3 sm:mb-4" />
+            <h1 className="text-xl sm:text-2xl font-bold text-red-600 mb-2 break-words">Account Banned</h1>
+            <p className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4 break-words leading-relaxed">
               You have been detected switching screens or opening other applications during the exam multiple times.
               This is considered cheating and your account has been banned from taking this exam.
             </p>
-            <p className="text-sm text-gray-500">
+            <p className="text-xs sm:text-sm text-gray-500 break-words">
               This flag has been saved. Please contact the administrator if you believe this is an error.
             </p>
           </div>
@@ -1374,32 +1387,82 @@ export default function PublicExamPage() {
     if (!showWarningModal) return null;
 
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div className="bg-white rounded-lg border border-yellow-200 p-8 max-w-2xl mx-4 shadow-xl">
+      <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+        <div className="bg-white rounded-lg border border-yellow-200 p-4 sm:p-6 lg:p-8 max-w-2xl w-full mx-4 shadow-xl max-h-[90vh] overflow-y-auto">
           <div className="text-center">
-            <FiAlertCircle className="h-16 w-16 text-yellow-500 mx-auto mb-4" />
-            <h1 className="text-2xl font-bold text-yellow-600 mb-2">Warning: Suspicious Activity Detected</h1>
-            <p className="text-gray-700 mb-4 text-left">
+            <FiAlertCircle className="h-12 w-12 sm:h-16 sm:w-16 text-yellow-500 mx-auto mb-3 sm:mb-4" />
+            <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-yellow-600 mb-2 break-words">Warning: Suspicious Activity Detected</h1>
+            <p className="text-sm sm:text-base text-gray-700 mb-3 sm:mb-4 text-left break-words leading-relaxed">
               We have detected that you may have switched tabs, minimized the window, or opened other applications during the exam.
             </p>
-            <div className="bg-yellow-50 border border-yellow-200 rounded p-4 mb-4 text-left">
-              <p className="text-sm font-semibold text-yellow-800 mb-2">Important Notice:</p>
-              <ul className="list-disc list-inside text-sm text-yellow-700 space-y-1">
+            <div className="bg-yellow-50 border border-yellow-200 rounded p-3 sm:p-4 mb-3 sm:mb-4 text-left">
+              <p className="text-xs sm:text-sm font-semibold text-yellow-800 mb-2 break-words">Important Notice:</p>
+              <ul className="list-disc list-inside text-xs sm:text-sm text-yellow-700 space-y-1 break-words">
                 <li>This is your first warning</li>
                 <li>If you perform this activity again, your account will be <strong>banned</strong></li>
                 <li>You will not be able to complete this exam if banned</li>
                 <li>Please stay focused on the exam window</li>
               </ul>
             </div>
-            <p className="text-gray-600 mb-6">
+            <p className="text-xs sm:text-sm text-gray-600 mb-4 sm:mb-6 break-words leading-relaxed">
               Please acknowledge this warning and continue with your exam. Make sure to keep the exam window active at all times.
             </p>
             <button
               onClick={handleAcknowledgeWarning}
-              className="px-6 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition-colors font-medium"
+              className="cursor-pointer px-4 sm:px-6 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition-colors font-medium text-sm sm:text-base w-full sm:w-auto"
             >
               I Understand, Continue Exam
             </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // Submit Confirmation Modal
+  const SubmitConfirmationModal = () => {
+    if (!showSubmitModal) return null;
+
+    const answeredCount = Object.keys(answers).filter(qId => answers[qId] && answers[qId].length > 0).length;
+    const pendingCount = questions.length - answeredCount;
+
+    return (
+      <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+        <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6 lg:p-8 max-w-md w-full mx-4 shadow-xl">
+          <div className="text-center">
+            <FiAlertCircle className="h-12 w-12 sm:h-16 sm:w-16 text-orange-500 mx-auto mb-3 sm:mb-4" />
+            <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 break-words">
+              Are you sure you want to submit?
+            </h1>
+            {pendingCount > 0 ? (
+              <div className="mb-4 sm:mb-6">
+                <p className="text-sm sm:text-base text-gray-700 mb-2 break-words leading-relaxed">
+                  You have <strong className="text-orange-600 font-bold">{pendingCount}</strong> pending question{pendingCount !== 1 ? 's' : ''} that you haven't answered yet.
+                </p>
+                <p className="text-xs sm:text-sm text-gray-600 break-words">
+                  Are you sure you want to submit the exam now?
+                </p>
+              </div>
+            ) : (
+              <p className="text-sm sm:text-base text-gray-700 mb-4 sm:mb-6 break-words leading-relaxed">
+                All questions have been answered. Are you sure you want to submit the exam?
+              </p>
+            )}
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+              <button
+                onClick={handleCancelSubmit}
+                className="cursor-pointer px-4 sm:px-6 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors font-medium text-sm sm:text-base"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleConfirmSubmit}
+                disabled={submitting}
+                className="cursor-pointer px-4 sm:px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors font-medium text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {submitting ? 'Submitting...' : 'Yes, Submit Exam'}
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -1410,27 +1473,27 @@ export default function PublicExamPage() {
     return (
       <div className="min-h-screen bg-gray-50">
         <header className="bg-white border-b border-gray-200 shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <div className="flex items-center gap-4">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-3 sm:py-4">
+            <div className="flex items-center gap-2 sm:gap-4">
               <Image
                 src="/Expertbatch Logo.svg"
                 alt="ExpertBatch Logo"
                 width={201}
                 height={32}
-                className="h-8 w-auto"
+                className="h-6 sm:h-8 w-auto"
               />
             </div>
           </div>
         </header>
-        <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="bg-white rounded-lg border border-red-200 p-8">
+        <main className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-8 py-6 sm:py-8">
+          <div className="bg-white rounded-lg border border-red-200 p-4 sm:p-6 lg:p-8">
             <div className="text-center">
-              <FiXCircle className="h-16 w-16 text-red-500 mx-auto mb-4" />
-              <h1 className="text-2xl font-bold text-primary-black mb-2">Error Loading Exam</h1>
-              <p className="text-gray-600 mb-4">{error}</p>
+              <FiXCircle className="h-12 w-12 sm:h-16 sm:w-16 text-red-500 mx-auto mb-3 sm:mb-4" />
+              <h1 className="text-xl sm:text-2xl font-bold text-primary-black mb-2 break-words">Error Loading Exam</h1>
+              <p className="text-sm sm:text-base text-gray-600 mb-4 break-words leading-relaxed">{error}</p>
               <button
                 onClick={() => window.location.reload()}
-                className="px-6 py-2 bg-[#ED2024] text-white rounded hover:bg-[#C91A1A] transition-colors font-medium"
+                className="px-4 sm:px-6 py-2 bg-[#ED2024] text-white rounded hover:bg-[#C91A1A] transition-colors font-medium text-sm sm:text-base"
               >
                 Retry
               </button>
@@ -1468,6 +1531,9 @@ export default function PublicExamPage() {
     <div className="min-h-screen bg-gray-50">
       {/* Warning Modal */}
       <WarningModal />
+      
+      {/* Submit Confirmation Modal */}
+      <SubmitConfirmationModal />
       
       {/* Hidden video and canvas for camera and screenshots */}
       <video
@@ -1510,40 +1576,41 @@ export default function PublicExamPage() {
       />
 
       <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-3 sm:py-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+            <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-1 sm:flex-initial">
               <Image
                 src="/Expertbatch Logo.svg"
                 alt="ExpertBatch Logo"
                 width={201}
                 height={32}
-                className="h-8 w-auto"
+                className="h-6 sm:h-8 w-auto flex-shrink-0"
               />
-              <h1 className="text-lg font-semibold text-primary-black">
+              <h1 className="text-base sm:text-lg font-semibold text-primary-black truncate">
                 {skill?.name || 'Exam'}
               </h1>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 lg:gap-4 w-full sm:w-auto justify-start sm:justify-end">
               {examStarted && !examSubmitted && (
-                <div className={`flex items-center gap-2 text-sm font-medium px-3 py-1.5 rounded ${
+                <div className={`flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-medium px-2 sm:px-3 py-1 sm:py-1.5 rounded flex-shrink-0 ${
                   remainingTime <= 300 
                     ? 'bg-red-100 text-red-700' 
                     : remainingTime <= 600 
                     ? 'bg-yellow-100 text-yellow-700' 
                     : 'bg-gray-100 text-gray-700'
                 }`}>
-                  <FiClock className="h-4 w-4" />
-                  <span>{formatTime(remainingTime)}</span>
+                  <FiClock className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                  <span className="whitespace-nowrap">{formatTime(remainingTime)}</span>
                 </div>
               )}
-              <div className="text-sm text-gray-600">
-                Question {currentQuestionIndex + 1} / {questions.length}
+              <div className="text-xs sm:text-sm text-gray-600 whitespace-nowrap">
+                Q {currentQuestionIndex + 1} / {questions.length}
               </div>
               {cameraPermissionGranted && (
-                <div className="flex items-center gap-2 text-sm text-green-600">
-                  <FiCamera className="h-4 w-4" />
-                  <span>Camera Active</span>
+                <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-green-600 flex-shrink-0">
+                  <FiCamera className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                  <span className="hidden sm:inline">Camera Active</span>
+                  <span className="sm:hidden">Camera</span>
                 </div>
               )}
             </div>
@@ -1551,15 +1618,15 @@ export default function PublicExamPage() {
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-8 py-4 sm:py-6 lg:py-8">
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6">
+          <div className="bg-red-50 border border-red-200 text-red-700 px-3 sm:px-4 py-2 sm:py-3 rounded mb-4 sm:mb-6 text-sm sm:text-base break-words">
             {error}
           </div>
         )}
 
         {/* Question Navigation Pills */}
-        <div className="mb-6 flex flex-wrap gap-2">
+        <div className="mb-4 sm:mb-6 flex flex-wrap gap-1.5 sm:gap-2">
           {questions.map((q, index) => {
             const isAnswered = answers[q.id] && answers[q.id].length > 0;
             const isCurrent = index === currentQuestionIndex;
@@ -1568,7 +1635,7 @@ export default function PublicExamPage() {
               <button
                 key={q.id}
                 onClick={() => goToQuestion(index)}
-                className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
+                className={`px-2 sm:px-3 py-1 rounded text-xs sm:text-sm font-medium transition-colors min-w-[32px] sm:min-w-[36px] ${
                   isCurrent
                     ? 'bg-[#4B5B71] text-white'
                     : isAnswered
@@ -1584,35 +1651,35 @@ export default function PublicExamPage() {
 
         {/* Single Question Display */}
         {currentQuestion ? (
-          <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
-            <div className="flex items-start justify-between mb-4">
-              <h3 className="text-lg font-semibold text-primary-black">
+          <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6 mb-4 sm:mb-6">
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4 mb-3 sm:mb-4">
+              <h3 className="text-base sm:text-lg font-semibold text-primary-black break-words">
                 Question {currentQuestionIndex + 1} of {questions.length}
               </h3>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-shrink-0">
                 {answers[currentQuestion.id] && answers[currentQuestion.id].length > 0 && (
-                  <span className="text-xs text-gray-600">
+                  <span className="text-xs text-gray-600 whitespace-nowrap">
                     ({answers[currentQuestion.id].length} selected)
                   </span>
                 )}
               </div>
             </div>
 
-            <p className="text-gray-700 mb-4">{currentQuestion.questionText}</p>
+            <p className="text-sm sm:text-base text-gray-700 mb-3 sm:mb-4 break-words leading-relaxed">{currentQuestion.questionText}</p>
 
             {currentQuestion.difficultyLevel && (
-              <p className="text-sm text-gray-500 mb-4">
+              <p className="text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4 break-words">
                 Difficulty: <span className="capitalize">{currentQuestion.difficultyLevel}</span>
               </p>
             )}
 
-            <div className="space-y-3 mb-6">
+            <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
               {currentQuestion.options.map((option) => {
                 const isSelected = answers[currentQuestion.id]?.includes(option.id) || false;
                 return (
                   <label
                     key={option.id}
-                    className={`flex items-start gap-3 p-3 rounded border-2 cursor-pointer transition-colors ${
+                    className={`flex items-start gap-2 sm:gap-3 p-2.5 sm:p-3 rounded border-2 cursor-pointer transition-colors ${
                       isSelected
                         ? 'border-[#4B5B71] bg-gray-50'
                         : 'border-gray-200 hover:border-gray-300'
@@ -1625,53 +1692,53 @@ export default function PublicExamPage() {
                       onChange={() =>
                         handleOptionChange(currentQuestion.id, option.id)
                       }
-                      className="mt-1"
+                      className="mt-0.5 sm:mt-2 flex-shrink-0"
                     />
-                    <span className="flex-1 text-gray-700">{option.text}</span>
+                    <span className="flex-1 text-sm sm:text-base text-gray-700 break-words leading-relaxed">{option.text}</span>
                   </label>
                 );
               })}
             </div>
 
             {/* Navigation Buttons */}
-            <div className="flex items-center justify-between pt-4 border-t border-gray-200">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4 pt-4 border-t border-gray-200">
               <button
                 onClick={handlePreviousQuestion}
                 disabled={currentQuestionIndex === 0}
-                className="flex items-center gap-2 px-6 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors font-medium text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed order-2 sm:order-1"
               >
                 <FiPrev className="h-4 w-4" />
-                Previous
+                <span className="whitespace-nowrap">Previous</span>
               </button>
 
-              <div className="text-sm text-gray-600">
+              <div className="text-xs sm:text-sm text-gray-600 text-center sm:text-left order-1 sm:order-2 whitespace-nowrap">
                 Answered: {answeredCount} / {questions.length}
               </div>
 
               {currentQuestionIndex < questions.length - 1 ? (
                 <button
                   onClick={handleNextQuestion}
-                  className="cursor-pointer flex items-center gap-2 px-6 py-2 bg-[#ED2024] text-white rounded hover:bg-[#C91A1A] transition-colors font-medium"
+                  className="cursor-pointer flex items-center justify-center gap-2 px-4 sm:px-6 py-2 bg-[#ED2024] text-white rounded hover:bg-[#C91A1A] transition-colors font-medium text-sm sm:text-base order-3"
                 >
-                  Next
+                  <span className="whitespace-nowrap">Next</span>
                   <FiArrowRight className="h-4 w-4" />
                 </button>
               ) : (
                 <button
-                  onClick={handleSubmitExam}
+                  onClick={() => setShowSubmitModal(true)}
                   disabled={submitting}
-                  className="cursor-pointer flex items-center gap-2 px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="cursor-pointer flex items-center justify-center gap-2 px-4 sm:px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors font-medium text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed order-3"
                 >
-                  {submitting ? 'Submitting...' : 'Submit Exam'}
+                  <span className="whitespace-nowrap">{submitting ? 'Submitting...' : 'Submit Exam'}</span>
                 </button>
               )}
             </div>
           </div>
         ) : (
-          <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
-            <FiBook className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-600 mb-2">No questions available</p>
-            <p className="text-sm text-gray-500">Please check if the skill name is correct.</p>
+          <div className="bg-white rounded-lg border border-gray-200 p-6 sm:p-8 text-center">
+            <FiBook className="h-10 w-10 sm:h-12 sm:w-12 text-gray-400 mx-auto mb-3 sm:mb-4" />
+            <p className="text-sm sm:text-base text-gray-600 mb-2 break-words">No questions available</p>
+            <p className="text-xs sm:text-sm text-gray-500 break-words">Please check if the skill name is correct.</p>
           </div>
         )}
       </main>
