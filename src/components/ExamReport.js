@@ -68,11 +68,20 @@ export default function ExamReport({ result, skill }) {
             <div style={{ minHeight: '100vh', backgroundColor: '#ffffff', fontFamily: 'Arial, sans-serif' }}>
                 <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '24px', backgroundColor: '#ffffff' }}>
                     {/* Header */}
-                    <div style={{ marginBottom: '32px', paddingBottom: '16px', borderBottom: '2px solid #cbd5e1' }}>
-                        <h1 style={{ fontSize: '24px', fontWeight: 'bold', color: '#1e3a8a', marginBottom: '8px' }}>
-                            Candidate Performance Report
-                        </h1>
-                        <p style={{ fontSize: '14px', color: '#6b7280', marginTop: '8px' }}>Comprehensive Assessment Analysis</p>
+                    <div style={{ marginBottom: '32px', paddingBottom: '16px', borderBottom: '2px solid #cbd5e1', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-center' }}>
+                        <div>
+                            <h1 style={{ fontSize: '24px', fontWeight: 'bold', color: '#1e3a8a', marginBottom: '8px' }}>
+                                Candidate Performance Report
+                            </h1>
+                            <p style={{ fontSize: '14px', color: '#6b7280', marginTop: '8px' }}>Comprehensive Assessment Analysis</p>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <img 
+                                src="/Internset logo.svg" 
+                                alt="Internset Logo" 
+                                style={{ height: '40px', width: 'auto', maxWidth: '200px' }}
+                            />
+                        </div>
                     </div>
 
                     {/* Report Details */}

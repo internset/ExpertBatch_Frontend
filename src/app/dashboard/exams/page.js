@@ -168,19 +168,10 @@ export default function ExamsPage() {
                   <thead className="bg-[rgba(0,0,0,0.02)]">
                     <tr>
                       <th className="px-6 py-3 text-left text-[0.9rem] font-semibold uppercase tracking-wider text-primary-black">
+                        Exam Name
+                      </th>
+                      <th className="px-6 py-3 text-left text-[0.9rem] font-semibold uppercase tracking-wider text-primary-black">
                         User ID
-                      </th>
-                      <th className="px-6 py-3 text-left text-[0.9rem] font-semibold uppercase tracking-wider text-primary-black">
-                        Skill ID
-                      </th>
-                      <th className="px-6 py-3 text-left text-[0.9rem] font-semibold uppercase tracking-wider text-primary-black">
-                        Score
-                      </th>
-                      <th className="px-6 py-3 text-left text-[0.9rem] font-semibold uppercase tracking-wider text-primary-black">
-                        Total Score
-                      </th>
-                      <th className="px-6 py-3 text-left text-[0.9rem] font-semibold uppercase tracking-wider text-primary-black">
-                        Submitted At
                       </th>
                       <th className="px-6 py-3 text-left text-[0.9rem] font-semibold uppercase tracking-wider text-primary-black">
                         Actions
@@ -190,7 +181,7 @@ export default function ExamsPage() {
                   <tbody className="divide-y divide-[rgba(0,0,0,0.125)] bg-white">
                     {exams.length === 0 ? (
                       <tr>
-                        <td colSpan="6" className="px-6 py-4 text-center text-gray-500">
+                        <td colSpan="3" className="px-6 py-4 text-center text-gray-500">
                           No exams found
                         </td>
                       </tr>
@@ -198,19 +189,10 @@ export default function ExamsPage() {
                       exams.map((exam) => (
                         <tr key={exam.id} className="hover:bg-[rgba(0,0,0,0.02)] transition-colors">
                           <td className="whitespace-nowrap px-6 py-4 text-[0.9rem] font-medium text-primary-black">
+                            {exam.examName || exam.name || '-'}
+                          </td>
+                          <td className="whitespace-nowrap px-6 py-4 text-[0.9rem] text-primary-black">
                             {exam.userId}
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4 text-[0.9rem] text-primary-black">
-                            {exam.skillId}
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4 text-[0.9rem] font-medium text-primary-black">
-                            {exam.totalScore || 0}
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4 text-[0.9rem] text-primary-black">
-                            {exam.maxScore || '-'}
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4 text-[0.9rem] text-primary-black">
-                            {exam.createdAt ? formatDate(exam.createdAt) : '-'}
                           </td>
                           <td className="whitespace-nowrap px-6 py-4 text-[0.9rem] text-primary-black">
                             <div className="flex items-center gap-2">
