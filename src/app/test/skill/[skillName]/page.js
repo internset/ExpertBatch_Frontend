@@ -28,7 +28,11 @@ export default function PublicExamPage() {
   const [startTime, setStartTime] = useState(null);
   const [mounted, setMounted] = useState(false);
   const [sessionId, setSessionId] = useState(null);
-  const [userId] = useState('public-user-id'); // You can make this dynamic later
+  // Extract userId and username from URL query parameters
+  const urlUserId = searchParams.get('userId') || 'public-user-id';
+  const urlUsername = searchParams.get('username') || null;
+  const [userId] = useState(urlUserId);
+  const [username] = useState(urlUsername);
   
   // New states for single question view
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -529,13 +533,24 @@ export default function PublicExamPage() {
   // Capture screenshot using html-to-image (handles modern CSS like lab(), lch(), Tailwind v3+)
   const captureScreenshot = useCallback(async () => {
     try {
-      // Find the best target element
-      const targetElement = document.querySelector('main') || 
-                           document.querySelector('[class*="container"]') ||
-                           document.querySelector('[class*="exam"]') ||
-                           document.body;
+      // Temporarily ensure body has full height to capture everything
+      const originalBodyHeight = document.body.style.height;
+      const originalBodyOverflow = document.body.style.overflow;
+      
+      // Set body to full scrollable height to ensure complete capture
+      const fullHeight = Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight,
+        window.innerHeight
+      );
+      document.body.style.height = `${fullHeight}px`;
+      document.body.style.overflow = 'visible';
+      
+      // Capture document.body to get the full page including header and all content
+      const targetElement = document.body;
       
       // Capture with html-to-image (handles modern CSS natively)
+      // This will capture the entire body including all visible content
       const screenshotDataUrl = await toPng(targetElement, {
         cacheBust: true,
         pixelRatio: 1,
@@ -547,6 +562,10 @@ export default function PublicExamPage() {
                  node.tagName !== 'IFRAME';
         },
       });
+      
+      // Restore original body styles
+      document.body.style.height = originalBodyHeight;
+      document.body.style.overflow = originalBodyOverflow;
       
       // Update state and localStorage
       setScreenshots(prev => {
@@ -561,6 +580,12 @@ export default function PublicExamPage() {
       
       return screenshotDataUrl;
     } catch (err) {
+      // Restore original body styles in case of error
+      if (document.body) {
+        document.body.style.height = '';
+        document.body.style.overflow = '';
+      }
+      
       console.error('❌ Error capturing screenshot with html-to-image:', err);
       console.error('Error details:', {
         message: err.message,
