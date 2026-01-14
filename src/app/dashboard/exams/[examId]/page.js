@@ -51,6 +51,31 @@ export default function ExamDetailsPage() {
     return `${diffMins}m ${diffSecs}s`;
   };
 
+  // Parse proctoring info to separate screencaptures and facecaptures
+  const getProctoringImages = () => {
+    if (!exam.proctoringInfo || !Array.isArray(exam.proctoringInfo)) {
+      return { screencaptures: [], facecaptures: [] };
+    }
+    
+    const screencaptures = exam.proctoringInfo
+      .filter(item => item.type === 'screencapture')
+      .map(item => ({
+        image: item.image,
+        createdAt: item.createdAt,
+        updatedAt: item.updatedAt
+      }));
+    
+    const facecaptures = exam.proctoringInfo
+      .filter(item => item.type === 'facecapture')
+      .map(item => ({
+        image: item.image,
+        createdAt: item.createdAt,
+        updatedAt: item.updatedAt
+      }));
+    
+    return { screencaptures, facecaptures };
+  };
+
   if (loading) {
     return (
       <DashboardLayout>
@@ -281,63 +306,102 @@ export default function ExamDetailsPage() {
             </div>
           )}
 
-          {/* Screenshots */}
-          {exam.screenshots && exam.screenshots.length > 0 && (
-            <div className="rounded-[0.25rem] border border-[rgba(0,0,0,0.125)] bg-white p-6">
-              <h3 className="text-lg font-semibold text-primary-black mb-4 flex items-center gap-2">
-                <FiMonitor className="h-5 w-5" />
-                Screenshots ({exam.screenshots.length})
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {exam.screenshots.map((screenshot, index) => (
-                  <div key={index} className="border border-gray-200 rounded-lg overflow-hidden">
-                    <img
-                      src={screenshot}
-                      alt={`Screenshot ${index + 1}`}
-                      className="w-full h-48 object-cover cursor-pointer hover:opacity-90 transition-opacity"
-                      onClick={() => window.open(screenshot, '_blank')}
-                    />
-                    <div className="p-2 bg-gray-50 text-center">
-                      <p className="text-xs text-gray-600">Screenshot {index + 1}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+          {/* Proctoring Images - Side by Side */}
+          {(() => {
+            const { screencaptures, facecaptures } = getProctoringImages();
+            const hasProctoringImages = screencaptures.length > 0 || facecaptures.length > 0;
+            
+            if (!hasProctoringImages) {
+              return (
+                <div className="rounded-[0.25rem] border border-[rgba(0,0,0,0.125)] bg-white p-6">
+                  <p className="text-gray-600 text-center">No proctoring images available for this exam.</p>
+                </div>
+              );
+            }
 
-          {/* Camera Captures */}
-          {exam.cameraCaptures && exam.cameraCaptures.length > 0 && (
-            <div className="rounded-[0.25rem] border border-[rgba(0,0,0,0.125)] bg-white p-6">
-              <h3 className="text-lg font-semibold text-primary-black mb-4 flex items-center gap-2">
-                <FiCamera className="h-5 w-5" />
-                Camera Captures ({exam.cameraCaptures.length})
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {exam.cameraCaptures.map((capture, index) => (
-                  <div key={index} className="border border-gray-200 rounded-lg overflow-hidden">
-                    <img
-                      src={capture}
-                      alt={`Camera capture ${index + 1}`}
-                      className="w-full h-48 object-cover cursor-pointer hover:opacity-90 transition-opacity"
-                      onClick={() => window.open(capture, '_blank')}
-                    />
-                    <div className="p-2 bg-gray-50 text-center">
-                      <p className="text-xs text-gray-600">Capture {index + 1}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+            const maxCount = Math.max(screencaptures.length, facecaptures.length);
 
-          {/* No Screenshots or Camera Captures Message */}
-          {(!exam.screenshots || exam.screenshots.length === 0) && 
-           (!exam.cameraCaptures || exam.cameraCaptures.length === 0) && (
-            <div className="rounded-[0.25rem] border border-[rgba(0,0,0,0.125)] bg-white p-6">
-              <p className="text-gray-600 text-center">No screenshots or camera captures available for this exam.</p>
-            </div>
-          )}
+            return (
+              <div className="rounded-[0.25rem] border border-[rgba(0,0,0,0.125)] bg-white p-6">
+                <h3 className="text-lg font-semibold text-primary-black mb-4">Proctoring Images</h3>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {/* Screenshots - Left Side */}
+                  <div>
+                    <div className="flex items-center gap-2 mb-4">
+                      <FiMonitor className="h-5 w-5 text-gray-600" />
+                      <h4 className="text-md font-semibold text-primary-black">
+                        Screenshots ({screencaptures.length})
+                      </h4>
+                    </div>
+                    {screencaptures.length > 0 ? (
+                      <div className="space-y-4 max-h-[600px] overflow-y-auto">
+                        {screencaptures.map((screenshot, index) => {
+                          const timestamp = screenshot.createdAt || screenshot.updatedAt;
+                          const imageDate = timestamp ? formatDate(timestamp) : 'N/A';
+                          return (
+                            <div key={index} className="border border-gray-200 rounded-lg overflow-hidden">
+                              <img
+                                src={screenshot.image}
+                                alt={`Screenshot ${index + 1}`}
+                                className="w-full h-auto object-contain cursor-pointer hover:opacity-90 transition-opacity bg-gray-50"
+                                onClick={() => window.open(screenshot.image, '_blank')}
+                              />
+                              <div className="p-2 bg-gray-50 text-center border-t border-gray-200">
+                                <p className="text-xs text-gray-600 font-medium">Screenshot {index + 1}</p>
+                                <p className="text-xs text-gray-500 mt-1">Time: {imageDate}</p>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <div className="border border-gray-200 rounded-lg p-8 text-center bg-gray-50">
+                        <FiMonitor className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                        <p className="text-sm text-gray-500">No screenshots available</p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Face Captures - Right Side */}
+                  <div>
+                    <div className="flex items-center gap-2 mb-4">
+                      <FiCamera className="h-5 w-5 text-gray-600" />
+                      <h4 className="text-md font-semibold text-primary-black">
+                        Face Captures ({facecaptures.length})
+                      </h4>
+                    </div>
+                    {facecaptures.length > 0 ? (
+                      <div className="space-y-4 max-h-[600px] overflow-y-auto">
+                        {facecaptures.map((capture, index) => {
+                          const timestamp = capture.createdAt || capture.updatedAt;
+                          const imageDate = timestamp ? formatDate(timestamp) : 'N/A';
+                          return (
+                            <div key={index} className="border border-gray-200 rounded-lg overflow-hidden">
+                              <img
+                                src={capture.image}
+                                alt={`Face capture ${index + 1}`}
+                                className="w-full h-auto object-contain cursor-pointer hover:opacity-90 transition-opacity bg-gray-50"
+                                onClick={() => window.open(capture.image, '_blank')}
+                              />
+                              <div className="p-2 bg-gray-50 text-center border-t border-gray-200">
+                                <p className="text-xs text-gray-600 font-medium">Face Capture {index + 1}</p>
+                                <p className="text-xs text-gray-500 mt-1">Time: {imageDate}</p>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <div className="border border-gray-200 rounded-lg p-8 text-center bg-gray-50">
+                        <FiCamera className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                        <p className="text-sm text-gray-500">No face captures available</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
         </div>
       </div>
     </DashboardLayout>
