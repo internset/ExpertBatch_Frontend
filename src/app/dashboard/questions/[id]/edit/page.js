@@ -69,24 +69,40 @@ export default function EditQuestionPage() {
   const fetchQuestion = async () => {
     try {
       setLoading(true);
+      setError('');
       const data = await questionsAPI.getOne(questionId);
+      
+      // Ensure options array is properly formatted
+      const options = Array.isArray(data.options) && data.options.length > 0
+        ? data.options.map(opt => ({
+            text: opt.text || '',
+            isCorrect: opt.isCorrect || false,
+            score: opt.score || 0,
+          }))
+        : [
+            { text: '', isCorrect: false, score: 0 },
+            { text: '', isCorrect: false, score: 0 },
+            { text: '', isCorrect: false, score: 0 },
+            { text: '', isCorrect: false, score: 0 },
+          ];
+      
       setFormData({
-        skillId: data.skillId,
-        topicId: data.topicId,
-        questionText: data.questionText,
+        skillId: data.skillId || '',
+        topicId: data.topicId || '',
+        questionText: data.questionText || '',
         difficultyLevel: data.difficultyLevel || 'MEDIUM',
-        score: data.score,
+        score: data.score || 10,
         correctOptionsCount: data.correctOptionsCount || 1,
-        options: data.options || [
-          { text: '', isCorrect: false, score: 0 },
-          { text: '', isCorrect: false, score: 0 },
-          { text: '', isCorrect: false, score: 0 },
-          { text: '', isCorrect: false, score: 0 },
-        ],
+        options: options,
       });
+      
+      // Fetch topics for the selected skill
+      if (data.skillId) {
+        await fetchTopics(data.skillId);
+      }
     } catch (err) {
-      setError('Failed to load question');
-      console.error(err);
+      setError(err.message || 'Failed to load question');
+      console.error('Error fetching question:', err);
     } finally {
       setLoading(false);
     }
@@ -120,7 +136,9 @@ export default function EditQuestionPage() {
     setSaving(true);
     
     try {
-      await questionsAPI.update(questionId, formData);
+      // Remove skillId and topicId from update payload as they're not allowed in UpdateQuestionDto
+      const { skillId, topicId, ...updateData } = formData;
+      await questionsAPI.update(questionId, updateData);
       router.push('/dashboard/questions');
     } catch (err) {
       setError(err.message || 'Failed to update question');
@@ -173,6 +191,45 @@ export default function EditQuestionPage() {
             )}
 
             <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium mb-2 text-primary-black">
+                    Skill <span className="text-gray-500 text-xs">(Read-only)</span>
+                  </label>
+                  <select
+                    value={formData.skillId}
+                    className={getInputClasses(false)}
+                    disabled
+                  >
+                    <option value="">Select a Skill</option>
+                    {skills.map((skill) => (
+                      <option key={skill.id} value={skill.id}>
+                        {skill.name}
+                      </option>
+                    ))}
+                  </select>
+                  <p className="text-xs text-gray-500 mt-1">Skill cannot be changed after question creation</p>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2 text-primary-black">
+                    Topic <span className="text-gray-500 text-xs">(Read-only)</span>
+                  </label>
+                  <select
+                    value={formData.topicId}
+                    className={getInputClasses(false)}
+                    disabled
+                  >
+                    <option value="">Select a Topic</option>
+                    {topics.map((topic) => (
+                      <option key={topic.id} value={topic.id}>
+                        {topic.name}
+                      </option>
+                    ))}
+                  </select>
+                  <p className="text-xs text-gray-500 mt-1">Topic cannot be changed after question creation</p>
+                </div>
+              </div>
+
               <div>
                 <label className="block text-sm font-medium mb-2 text-primary-black">
                   Question Text

@@ -139,6 +139,7 @@ export const questionsAPI = {
     return api.get(`/api/v1/questions?${params.toString()}`);
   },
   getBySkill: (skillId) => api.get(`/api/v1/questions/by-skill?skillId=${skillId}`),
+  getOne: (id) => api.get(`/api/v1/questions/${id}`),
   create: (data) => api.post('/api/v1/questions', data),
   update: (id, data) => api.patch(`/api/v1/questions/${id}`, data),
   delete: (id) => api.delete(`/api/v1/questions/${id}`),
