@@ -26,6 +26,21 @@ export default function ExamReport({ result, skill }) {
         });
     };
 
+    const formatImageDate = (dateString) => {
+        if (!dateString) return 'N/A';
+        const date = new Date(dateString);
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        const year = date.getFullYear();
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+        const seconds = date.getSeconds();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        const hours12 = hours % 12 || 12;
+        const formattedTime = `${hours12}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')} ${ampm}`;
+        return `${month}/${day}/${year} - (${formattedTime})`;
+    };
+
     const handlePrint = () => {
         window.print();
     };
@@ -96,20 +111,20 @@ export default function ExamReport({ result, skill }) {
                             Overall Performance Summary
                         </h2>
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px' }}>
-                            <div style={{ backgroundColor: '#10b981', borderRadius: '16px', padding: '32px', color: '#ffffff' }}>
-                                <p style={{ fontSize: '18px', fontWeight: '600', marginBottom: '12px' }}>Score</p>
-                                <p style={{ fontSize: '48px', fontWeight: 'bold', marginBottom: '4px' }}>{overallScore.toFixed(2)}</p>
-                                <p style={{ fontSize: '18px', fontWeight: '500' }}>out of {maxScore}</p>
+                            <div style={{ backgroundColor: '#ffffff', borderRadius: '16px', padding: '32px', border: '2px solid #d1d5db', color: '#1f2937' }}>
+                                <p style={{ fontSize: '18px', fontWeight: '600', marginBottom: '12px', color: '#1f2937' }}>Score</p>
+                                <p style={{ fontSize: '48px', fontWeight: 'bold', marginBottom: '4px', color: '#111827' }}>{overallScore.toFixed(2)}</p>
+                                <p style={{ fontSize: '18px', fontWeight: '500', color: '#4b5563' }}>out of {maxScore}</p>
                             </div>
-                            <div style={{ backgroundColor: '#2563eb', borderRadius: '16px', padding: '32px', color: '#ffffff' }}>
-                                <p style={{ fontSize: '18px', fontWeight: '600', marginBottom: '12px' }}>Percentage</p>
-                                <p style={{ fontSize: '48px', fontWeight: 'bold', marginBottom: '4px' }}>{percentage}%</p>
-                                <p style={{ fontSize: '18px', fontWeight: '500' }}>Performance</p>
+                            <div style={{ backgroundColor: '#ffffff', borderRadius: '16px', padding: '32px', border: '2px solid #d1d5db', color: '#1f2937' }}>
+                                <p style={{ fontSize: '18px', fontWeight: '600', marginBottom: '12px', color: '#1f2937' }}>Percentage</p>
+                                <p style={{ fontSize: '48px', fontWeight: 'bold', marginBottom: '4px', color: '#111827' }}>{percentage}%</p>
+                                <p style={{ fontSize: '18px', fontWeight: '500', color: '#4b5563' }}>Performance</p>
                             </div>
-                            <div style={{ backgroundColor: '#6366f1', borderRadius: '16px', padding: '32px', color: '#ffffff' }}>
-                                <p style={{ fontSize: '18px', fontWeight: '600', marginBottom: '12px' }}>Percentile</p>
-                                <p style={{ fontSize: '48px', fontWeight: 'bold', marginBottom: '4px' }}>{percentile.toFixed(1)}</p>
-                                <p style={{ fontSize: '12px', marginTop: '8px', fontStyle: 'italic' }}>* May vary with subsequent attempts</p>
+                            <div style={{ backgroundColor: '#ffffff', borderRadius: '16px', padding: '32px', border: '2px solid #d1d5db', color: '#1f2937' }}>
+                                <p style={{ fontSize: '18px', fontWeight: '600', marginBottom: '12px', color: '#1f2937' }}>Percentile</p>
+                                <p style={{ fontSize: '48px', fontWeight: 'bold', marginBottom: '4px', color: '#111827' }}>{percentile.toFixed(1)}</p>
+                                <p style={{ fontSize: '12px', marginTop: '8px', fontStyle: 'italic', color: '#6b7280' }}>* May vary with subsequent attempts</p>
                             </div>
                         </div>
                     </div>
@@ -329,12 +344,11 @@ export default function ExamReport({ result, skill }) {
                                 {proctoringInfo.map((item, index) => {
                                     const isScreenshot = item.type === 'screencapture';
                                     const imageType = isScreenshot ? 'Screenshot' : 'Face Capture';
-                                    const borderColor = isScreenshot ? '#3b82f6' : '#10b981';
-                                    const bgColor = isScreenshot ? '#dbeafe' : '#d1fae5';
+                                    const borderColor = '#d1d5db';
 
                                     // Use actual timestamp from createdAt or updatedAt
                                     const timestamp = item.createdAt || item.updatedAt;
-                                    const imageDate = timestamp ? formatDate(timestamp) : 'N/A';
+                                    const imageDate = timestamp ? formatImageDate(timestamp) : 'N/A';
 
                                     return (
                                         <div key={index} style={{ border: `2px solid ${borderColor}`, borderRadius: '12px', overflow: 'hidden', backgroundColor: '#ffffff' }}>
@@ -344,15 +358,10 @@ export default function ExamReport({ result, skill }) {
                                                     alt={`${imageType} ${index + 1}`}
                                                     style={{ width: '100%', height: '200px', objectFit: 'cover', display: 'block' }}
                                                 />
-                                                <div style={{ position: 'absolute', top: '12px', right: '12px', backgroundColor: bgColor, padding: '6px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.5)' }}>
-                                                    <span style={{ fontSize: '12px', fontWeight: '600', color: borderColor }}>
-                                                        {isScreenshot ? '📷' : '👤'}
-                                                    </span>
-                                                </div>
                                             </div>
-                                            <div style={{ padding: '12px', backgroundColor: bgColor, borderTop: `2px solid ${borderColor}` }}>
+                                            <div style={{ padding: '12px', backgroundColor: '#ffffff', borderTop: `2px solid ${borderColor}` }}>
                                                 <p style={{ fontSize: '12px', fontWeight: 'bold', color: '#1f2937', marginBottom: '4px' }}>{imageType} #{index + 1}</p>
-                                                <p style={{ fontSize: '11px', color: '#4b5563', fontWeight: '500' }}>Time: {imageDate}</p>
+                                                <p style={{ fontSize: '11px', color: '#4b5563', fontWeight: '500' }}>{imageDate}</p>
                                             </div>
                                         </div>
                                     );
@@ -554,35 +563,35 @@ export default function ExamReport({ result, skill }) {
                         <div className="mb-10">
                             <h2 className="text-3xl font-bold text-gray-800 mb-6 pb-3 border-b-2 border-blue-200">Overall Performance Summary</h2>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-                                <div className={`${pdfMode ? 'bg-green-600' : 'bg-gradient-to-br from-emerald-500 to-teal-600'} rounded-2xl p-8 text-white`}>
+                                <div className="bg-white rounded-2xl p-8 border-2 border-gray-300 text-gray-800">
                                     <div className="flex items-center justify-between mb-3">
-                                        <p className="text-lg font-semibold opacity-95">Score</p>
-                                        <div className="bg-white/20 rounded-lg p-2">
-                                            <FiFileText className="h-5 w-5" />
+                                        <p className="text-lg font-semibold">Score</p>
+                                        <div className="bg-gray-100 rounded-lg p-2">
+                                            <FiFileText className="h-5 w-5 text-gray-700" />
                                         </div>
                                     </div>
-                                    <p className="text-5xl font-extrabold mb-1">{overallScore.toFixed(2)}</p>
-                                    <p className="text-lg font-medium opacity-90">out of {maxScore}</p>
+                                    <p className="text-5xl font-extrabold mb-1 text-gray-900">{overallScore.toFixed(2)}</p>
+                                    <p className="text-lg font-medium text-gray-600">out of {maxScore}</p>
                                 </div>
-                                <div className={`${pdfMode ? 'bg-blue-600' : 'bg-gradient-to-br from-blue-500 to-sky-600'} rounded-2xl p-8 text-white`}>
+                                <div className="bg-white rounded-2xl p-8 border-2 border-gray-300 text-gray-800">
                                     <div className="flex items-center justify-between mb-3">
-                                        <p className="text-lg font-semibold opacity-95">Percentage</p>
-                                        <div className="bg-white/20 rounded-lg p-2">
-                                            <FiMonitor className="h-5 w-5" />
+                                        <p className="text-lg font-semibold">Percentage</p>
+                                        <div className="bg-gray-100 rounded-lg p-2">
+                                            <FiMonitor className="h-5 w-5 text-gray-700" />
                                         </div>
                                     </div>
-                                    <p className="text-5xl font-extrabold mb-1">{percentage}%</p>
-                                    <p className="text-lg font-medium opacity-90">Performance</p>
+                                    <p className="text-5xl font-extrabold mb-1 text-gray-900">{percentage}%</p>
+                                    <p className="text-lg font-medium text-gray-600">Performance</p>
                                 </div>
-                                <div className={`${pdfMode ? 'bg-indigo-600' : 'bg-gradient-to-br from-indigo-500 to-purple-600'} rounded-2xl p-8 text-white`}>
+                                <div className="bg-white rounded-2xl p-8 border-2 border-gray-300 text-gray-800">
                                     <div className="flex items-center justify-between mb-3">
-                                        <p className="text-lg font-semibold opacity-95">Percentile</p>
-                                        <div className="bg-white/20 rounded-lg p-2">
-                                            <FiUser className="h-5 w-5" />
+                                        <p className="text-lg font-semibold">Percentile</p>
+                                        <div className="bg-gray-100 rounded-lg p-2">
+                                            <FiUser className="h-5 w-5 text-gray-700" />
                                         </div>
                                     </div>
-                                    <p className="text-5xl font-extrabold mb-1">{percentile.toFixed(1)}</p>
-                                    <p className="text-xs mt-2 opacity-80 italic">* May vary with subsequent attempts</p>
+                                    <p className="text-5xl font-extrabold mb-1 text-gray-900">{percentile.toFixed(1)}</p>
+                                    <p className="text-xs mt-2 text-gray-500 italic">* May vary with subsequent attempts</p>
                                 </div>
                             </div>
                         </div>
@@ -592,19 +601,23 @@ export default function ExamReport({ result, skill }) {
                             <h2 className="text-2xl font-bold text-gray-800 mb-6 pb-2 border-b-2 border-blue-200">Overall Score Visualization</h2>
                             <div className="relative">
                                 {/* Chart Background with Grid Lines */}
-                                <div className="h-20 bg-white rounded-xl relative overflow-hidden border-2 border-blue-200 shadow-inner relative">
+                                <div className="h-20 bg-white rounded-xl relative overflow-hidden border-2 shadow-inner relative" style={{ borderColor: '#57c074' }}>
                                     {/* Grid lines */}
                                     {Array.from({ length: 21 }, (_, i) => i * 5).map((val) => (
                                         <div
                                             key={val}
-                                            className="absolute top-0 bottom-0 w-px bg-blue-200"
-                                            style={{ left: `${val}%` }}
+                                            className="absolute top-0 bottom-0 w-px"
+                                            style={{ left: `${val}%`, backgroundColor: '#a5d6a7' }}
                                         ></div>
                                     ))}
                                     {/* Score Bar */}
                                     <div
-                                        className={`h-full ${pdfMode ? 'bg-blue-600' : 'bg-gradient-to-r from-blue-500 via-sky-500 to-blue-600'} rounded-lg transition-all duration-1000 flex items-center justify-end pr-4 ${pdfMode ? '' : 'shadow-lg'}`}
-                                        style={{ width: `${Math.min(percentage, 100)}%` }}
+                                        className={`h-full rounded-lg transition-all duration-1000 flex items-center justify-end pr-4 ${pdfMode ? '' : 'shadow-lg'}`}
+                                        style={{ 
+                                            width: `${Math.min(percentage, 100)}%`,
+                                            backgroundColor: pdfMode ? '#57c074' : undefined,
+                                            background: pdfMode ? undefined : 'linear-gradient(to right, #66bb6a, #57c074, #4caf50)'
+                                        }}
                                     >
                                         {percentage > 10 && (
                                             <span className="text-white text-base font-bold drop-shadow-lg">{percentage.toFixed(1)}%</span>
@@ -616,14 +629,14 @@ export default function ExamReport({ result, skill }) {
                                             className="absolute top-full mt-5 transform -translate-x-1/2 z-10"
                                             style={{ left: `${Math.min(percentage, 100)}%` }}
                                         >
-                                            <div className="w-0 h-0 border-l-[8px] border-r-[8px] border-t-[12px] border-transparent border-t-blue-600"></div>
+                                            <div className="w-0 h-0 border-l-[8px] border-r-[8px] border-t-[12px] border-transparent" style={{ borderTopColor: '#57c074' }}></div>
                                         </div>
                                     )}
                                 </div>
                                 {/* Scale Labels */}
                                 <div className="flex justify-between mt-4 text-xs font-semibold text-gray-700">
                                     {Array.from({ length: 21 }, (_, i) => i * 5).map((val) => (
-                                        <span key={val} className="flex-1 text-center text-blue-700">{val}</span>
+                                        <span key={val} className="flex-1 text-center" style={{ color: '#2e7d32' }}>{val}</span>
                                     ))}
                                 </div>
                             </div>
@@ -827,34 +840,24 @@ export default function ExamReport({ result, skill }) {
                                     {proctoringInfo.map((item, index) => {
                                         const isScreenshot = item.type === 'screencapture';
                                         const imageType = isScreenshot ? 'Screenshot' : 'Face Capture';
-                                        const borderColor = isScreenshot ? 'border-blue-400 hover:border-blue-600' : 'border-emerald-400 hover:border-emerald-600';
-                                        const bgColor = isScreenshot ? 'bg-blue-50' : 'bg-emerald-50';
-                                        const iconColor = isScreenshot ? 'text-blue-600' : 'text-emerald-600';
 
                                         // Use actual timestamp from createdAt or updatedAt
                                         const timestamp = item.createdAt || item.updatedAt;
-                                        const imageDate = timestamp ? formatDate(timestamp) : 'N/A';
+                                        const imageDate = timestamp ? formatImageDate(timestamp) : 'N/A';
 
                                         return (
-                                            <div key={index} className={`border-2 ${borderColor} rounded-xl overflow-hidden bg-white`}>
+                                            <div key={index} className="border-2 border-gray-300 rounded-xl overflow-hidden bg-white">
                                                 <div className="relative">
                                                     <img
                                                         src={item.image}
                                                         alt={`${imageType} ${index + 1}`}
-                                                        className="w-full h-56 object-cover "
+                                                        className="w-full h-56 object-cover cursor-pointer"
                                                         onClick={() => window.open(item.image, '_blank')}
                                                     />
-                                                    <div className={`absolute top-3 right-3 ${bgColor} px-3 py-1.5 rounded-lg flex items-center gap-1.5 border border-white/50`}>
-                                                        {isScreenshot ? (
-                                                            <FiMonitor className={`h-4 w-4 ${iconColor}`} />
-                                                        ) : (
-                                                            <FiCamera className={`h-4 w-4 ${iconColor}`} />
-                                                        )}
-                                                    </div>
                                                 </div>
-                                                <div className={`p-4 ${bgColor} border-t-2 ${borderColor}`}>
+                                                <div className="p-4 bg-white border-t-2 border-gray-300">
                                                     <p className="text-xs font-bold text-gray-900 mb-1.5">{imageType} #{index + 1}</p>
-                                                    <p className="text-xs text-gray-600 font-medium">Date: {imageDate}</p>
+                                                    <p className="text-xs text-gray-600 font-medium">{imageDate}</p>
                                                 </div>
                                             </div>
                                         );
