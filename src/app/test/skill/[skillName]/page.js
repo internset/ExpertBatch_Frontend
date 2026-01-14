@@ -86,14 +86,26 @@ export default function PublicExamPage() {
   // Update URL when question index changes
   const updateURL = useCallback((questionIndex = null, showReport = false) => {
     const baseUrl = `/test/skill/${encodeURIComponent(skillName)}`;
-    if (showReport) {
-      router.replace(`${baseUrl}?report`);
-    } else if (questionIndex !== null) {
-      router.replace(`${baseUrl}?question${questionIndex + 1}`);
-    } else {
-      router.replace(baseUrl);
+    
+    // Preserve userId and username query parameters (use state values to preserve initial values)
+    const preservedParams = [];
+    if (userId && userId !== 'public-user-id') {
+      preservedParams.push(`userId=${encodeURIComponent(userId)}`);
     }
-  }, [router, skillName]);
+    if (username) {
+      preservedParams.push(`username=${encodeURIComponent(username)}`);
+    }
+    const preservedQuery = preservedParams.length > 0 ? `&${preservedParams.join('&')}` : '';
+    
+    if (showReport) {
+      router.replace(`${baseUrl}?report${preservedQuery}`);
+    } else if (questionIndex !== null) {
+      router.replace(`${baseUrl}?question${questionIndex + 1}${preservedQuery}`);
+    } else {
+      const queryString = preservedParams.length > 0 ? `?${preservedParams.join('&')}` : '';
+      router.replace(`${baseUrl}${queryString}`);
+    }
+  }, [router, skillName, userId, username]);
 
   useEffect(() => {
     setMounted(true);
@@ -322,7 +334,9 @@ export default function PublicExamPage() {
       setSkill(skillData);
       setSkillId(skillData.id);
       
-      const questionsResponse = await examsAPI.getQuestions(skillData.id, userId, true, decodedSkillName);
+      // Use username if available, otherwise fall back to skill name
+      const nameToPass = username || decodedSkillName;
+      const questionsResponse = await examsAPI.getQuestions(skillData.id, userId, true, nameToPass);
       
       // Extract sessionId and questions from response
       let questionsData = [];
@@ -380,7 +394,7 @@ export default function PublicExamPage() {
     } finally {
       setLoading(false);
     }
-  }, [skillName, userId]);
+  }, [skillName, userId, username]);
 
   useEffect(() => {
     if (skillName && mounted) {
@@ -1020,29 +1034,45 @@ export default function PublicExamPage() {
   };
 
   const handleOptionChange = async (questionId, optionId) => {
+    // Calculate new selected options from current state BEFORE updating
+    // This ensures we always have the correct value to send to the API
+    const currentAnswers = answers[questionId] || [];
     let newSelectedOptions;
     
+    // Always allow multiple selections - toggle option on/off
+    if (currentAnswers.includes(optionId)) {
+      newSelectedOptions = currentAnswers.filter((id) => id !== optionId);
+    } else {
+      newSelectedOptions = [...currentAnswers, optionId];
+    }
+    
+    // Ensure newSelectedOptions is always an array
+    if (!Array.isArray(newSelectedOptions)) {
+      console.warn('newSelectedOptions is not an array, defaulting to empty array');
+      newSelectedOptions = [];
+    }
+    
+    // Update state with the new selected options using functional update
+    // This ensures we use the latest state even if there are rapid clicks
     setAnswers((prev) => {
-      const currentAnswers = prev[questionId] || [];
-      let updatedAnswers;
+      // Recalculate from the latest state to handle rapid clicks
+      const latestAnswers = prev[questionId] || [];
+      let latestSelectedOptions;
       
-      // Always allow multiple selections - toggle option on/off
-      if (currentAnswers.includes(optionId)) {
-        newSelectedOptions = currentAnswers.filter((id) => id !== optionId);
-        updatedAnswers = {
-          ...prev,
-          [questionId]: newSelectedOptions,
-        };
+      if (latestAnswers.includes(optionId)) {
+        latestSelectedOptions = latestAnswers.filter((id) => id !== optionId);
       } else {
-        newSelectedOptions = [...currentAnswers, optionId];
-        updatedAnswers = {
-          ...prev,
-          [questionId]: newSelectedOptions,
-        };
+        latestSelectedOptions = [...latestAnswers, optionId];
       }
       
+      // Use the recalculated value to ensure consistency
+      const updatedAnswers = {
+        ...prev,
+        [questionId]: Array.isArray(latestSelectedOptions) ? latestSelectedOptions : [],
+      };
+      
       // Remove from skipped if answered
-      if (updatedAnswers[questionId] && updatedAnswers[questionId].length > 0) {
+      if (latestSelectedOptions.length > 0) {
         setSkippedQuestions(prev => {
           const newSet = new Set(prev);
           newSet.delete(questionId);
@@ -1060,14 +1090,24 @@ export default function PublicExamPage() {
       return updatedAnswers;
     });
 
-    // Submit answer to backend if sessionId exists
+    // Submit answer to backend with the calculated value
+    // Use the value calculated from current state (which is correct for this user action)
     if (sessionId && examStarted && !examSubmitted) {
       try {
+        // Ensure selectedOptionIds is always an array
+        const selectedOptionIds = Array.isArray(newSelectedOptions) ? newSelectedOptions : [];
+        
         const answerData = {
           sessionId: sessionId,
           questionId: questionId,
-          selectedOptionIds: newSelectedOptions,
+          selectedOptionIds: selectedOptionIds,
         };
+
+        // Final validation - ensure we're sending a valid array
+        if (!Array.isArray(answerData.selectedOptionIds)) {
+          console.error('selectedOptionIds is not an array after validation:', answerData.selectedOptionIds);
+          answerData.selectedOptionIds = [];
+        }
 
         // Call submit-answer API (fire and forget - don't block UI)
         examsAPI.submitAnswer(answerData, true).catch(err => {
