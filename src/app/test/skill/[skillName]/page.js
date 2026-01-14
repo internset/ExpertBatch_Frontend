@@ -1090,38 +1090,55 @@ export default function PublicExamPage() {
       return updatedAnswers;
     });
 
-    // Submit answer to backend with the calculated value
-    // Use the value calculated from current state (which is correct for this user action)
-    if (sessionId && examStarted && !examSubmitted) {
-      try {
-        // Ensure selectedOptionIds is always an array
-        const selectedOptionIds = Array.isArray(newSelectedOptions) ? newSelectedOptions : [];
-        
-        const answerData = {
-          sessionId: sessionId,
-          questionId: questionId,
-          selectedOptionIds: selectedOptionIds,
-        };
-
-        // Final validation - ensure we're sending a valid array
-        if (!Array.isArray(answerData.selectedOptionIds)) {
-          console.error('selectedOptionIds is not an array after validation:', answerData.selectedOptionIds);
-          answerData.selectedOptionIds = [];
-        }
-
-        // Call submit-answer API (fire and forget - don't block UI)
-        examsAPI.submitAnswer(answerData, true).catch(err => {
-          console.error('Error submitting answer:', err);
-          // Don't show error to user - answer is saved locally
-        });
-      } catch (err) {
-        console.error('Error preparing answer submission:', err);
-      }
-    }
+    // Note: API call removed from here - will be called only when Next button is clicked
   };
+
+  // Helper function to submit answer for a specific question
+  const submitAnswerForQuestion = useCallback((questionId) => {
+    if (!sessionId || !examStarted || examSubmitted) {
+      return;
+    }
+
+    // Get current selected options for this question
+    const selectedOptionIds = answers[questionId] || [];
+    
+    // Validation: Only call API if selectedOptionIds is a non-empty array
+    if (!Array.isArray(selectedOptionIds) || selectedOptionIds.length === 0) {
+      console.log('Skipping API call - no options selected for question:', questionId);
+      return;
+    }
+
+    try {
+      const answerData = {
+        sessionId: sessionId,
+        questionId: questionId,
+        selectedOptionIds: selectedOptionIds,
+      };
+
+      // Final validation - ensure we're sending a valid array
+      if (!Array.isArray(answerData.selectedOptionIds) || answerData.selectedOptionIds.length === 0) {
+        console.warn('Invalid selectedOptionIds, skipping API call:', answerData.selectedOptionIds);
+        return;
+      }
+
+      // Call submit-answer API (fire and forget - don't block UI)
+      examsAPI.submitAnswer(answerData, true).catch(err => {
+        console.error('Error submitting answer:', err);
+        // Don't show error to user - answer is saved locally
+      });
+    } catch (err) {
+      console.error('Error preparing answer submission:', err);
+    }
+  }, [sessionId, examStarted, examSubmitted, answers]);
 
   const handleNextQuestion = () => {
     if (currentQuestionIndex < questions.length - 1) {
+      // Submit answer for current question before moving to next
+      const currentQuestion = questions[currentQuestionIndex];
+      if (currentQuestion && currentQuestion.id) {
+        submitAnswerForQuestion(currentQuestion.id);
+      }
+      
       const newIndex = currentQuestionIndex + 1;
       setCurrentQuestionIndex(newIndex);
       
@@ -1170,6 +1187,12 @@ export default function PublicExamPage() {
     try {
       setSubmitting(true);
       setError('');
+
+      // Submit answer for current question before final submission
+      const currentQuestion = questions[currentQuestionIndex];
+      if (currentQuestion && currentQuestion.id) {
+        submitAnswerForQuestion(currentQuestion.id);
+      }
 
       // Stop intervals first to prevent new captures during submission
       if (proctoringIntervalRef.current) {
