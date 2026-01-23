@@ -1,32 +1,25 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/contexts/AuthContext';
+import Navigation from '@/components/landing/Navigation';
+import HeroSection from '@/components/landing/HeroSection';
+import StatisticsSection from '@/components/landing/StatisticsSection';
+import FeaturesSection from '@/components/landing/FeaturesSection';
+import BenefitsSection from '@/components/landing/BenefitsSection';
+import FAQSection from '@/components/landing/FAQSection';
+import CTASection from '@/components/landing/CTASection';
+import Footer from '@/components/landing/Footer';
 
-export default function Home() {
-  const router = useRouter();
-  const { user, loading } = useAuth();
-
-  useEffect(() => {
-    if (!loading) {
-      if (user) {
-        // Redirect based on user role
-        if (user.role === 'superadmin' || user.role === 'admin') {
-          router.push('/dashboard');
-        } else {
-          // Regular users (student, employee) go to exam portal
-          router.push('/exam');
-        }
-      } else {
-        router.push('/login');
-      }
-    }
-  }, [user, loading, router]);
-
+export default function LandingPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="text-lg">Loading...</div>
+    <div className="min-h-screen bg-white">
+      <Navigation />
+      <HeroSection />
+      <StatisticsSection />
+      <FeaturesSection />
+      <BenefitsSection />
+      <FAQSection />
+      <CTASection />
+      <Footer />
     </div>
   );
 }
