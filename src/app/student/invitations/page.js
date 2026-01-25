@@ -21,7 +21,7 @@ export default function InvitationsPage() {
           {invitations.map((invitation) => (
             <div
               key={invitation.id}
-              className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow"
+              className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm"
             >
               <div className="flex items-start gap-4 mb-4">
                 <div className={`p-3 rounded-lg ${

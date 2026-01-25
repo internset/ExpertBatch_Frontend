@@ -13,7 +13,6 @@ import {
   FiX,
   FiDollarSign
 } from 'react-icons/fi';
-import { motion } from 'framer-motion';
 
 export default function PaymentPage() {
   const router = useRouter();
@@ -116,16 +115,12 @@ export default function PaymentPage() {
       <div className="min-h-screen bg-gray-50">
         <Navigation />
         <div className="min-h-[60vh] flex items-center justify-center px-4">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="bg-white rounded-lg border border-green-200 p-8 max-w-md w-full text-center shadow-lg"
-          >
+          <div className="bg-white rounded-lg border border-green-200 p-8 max-w-md w-full text-center">
             <FiCheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Payment Successful!</h2>
             <p className="text-gray-600 mb-4">Your payment has been processed successfully.</p>
             <p className="text-sm text-gray-500">Redirecting to assessment...</p>
-          </motion.div>
+          </div>
         </div>
         <Footer />
       </div>
@@ -296,7 +291,7 @@ export default function PaymentPage() {
             <button
               type="submit"
               disabled={processing}
-              className="w-full px-6 py-4 bg-gradient-to-r from-[#ED2024] to-[#C91A1A] text-white rounded-lg hover:from-[#C91A1A] hover:to-[#A01515] transition-all font-semibold flex items-center justify-center gap-2 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full px-6 py-4 bg-gradient-to-r from-[#ED2024] to-[#C91A1A] text-white rounded-lg hover:from-[#C91A1A] hover:to-[#A01515] transition-all font-semibold flex items-center justify-center gap-2 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {processing ? (
                 <>

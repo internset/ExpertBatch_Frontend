@@ -126,7 +126,7 @@ export default function StudentDashboardPage() {
           {summaryCards.map((card, index) => (
             <div
               key={index}
-              className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow"
+              className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm"
             >
               <div className="text-sm font-medium text-gray-600 mb-2">{card.label}</div>
               <div className="text-4xl font-bold text-gray-900 mb-4">{card.count}</div>
@@ -150,7 +150,7 @@ export default function StudentDashboardPage() {
                 {activeTests.map((test) => (
                   <div
                     key={test.id}
-                    className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow"
+                    className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm"
                   >
                     {/* Badge at top left */}
                     {test.badge && (
@@ -211,7 +211,7 @@ export default function StudentDashboardPage() {
                 {pendingInvitations.map((invitation) => (
                   <div
                     key={invitation.id}
-                    className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow"
+                    className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm"
                   >
                     <div className="flex items-start gap-4 mb-4">
                       <div className={`p-3 rounded-lg ${
@@ -252,7 +252,7 @@ export default function StudentDashboardPage() {
                 {completedTests.map((test) => (
                   <div
                     key={test.id}
-                    className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow"
+                    className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm"
                   >
                     {/* Badge at top left */}
                     {test.badge && (

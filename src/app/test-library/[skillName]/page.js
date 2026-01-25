@@ -1,12 +1,11 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { motion, useInView } from 'framer-motion';
 import Link from 'next/link';
 import Navigation from '@/components/landing/Navigation';
 import Footer from '@/components/landing/Footer';
-import { 
+import {
   FiArrowLeft,
   FiClock,
   FiBook,
@@ -33,8 +32,6 @@ export default function TestDetailsPage() {
   const router = useRouter();
   const params = useParams();
   const skillName = params.skillName ? decodeURIComponent(params.skillName) : '';
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   // Dummy data - will be replaced with API call later
   const [skill, setSkill] = useState(null);
@@ -143,7 +140,7 @@ export default function TestDetailsPage() {
         <Navigation />
         <div className="min-h-[60vh] flex items-center justify-center">
           <div className="flex flex-col items-center gap-4">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#ED2024]"></div>
+            <div className="animate-spin h-12 w-12 border-b-2 border-[#ED2024]"></div>
             <p className="text-gray-600">Loading assessment details...</p>
           </div>
         </div>
@@ -162,7 +159,7 @@ export default function TestDetailsPage() {
             <p className="text-gray-600 mb-6">The assessment you're looking for doesn't exist.</p>
             <Link
               href="/test-library"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[#ED2024] text-white rounded-lg hover:bg-[#C91A1A] transition-colors font-semibold"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#ED2024] text-white hover:bg-[#C91A1A] transition-colors font-semibold"
             >
               <FiArrowLeft className="h-5 w-5" />
               Back to Test Library
@@ -183,16 +180,16 @@ export default function TestDetailsPage() {
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
-      
+
       {/* Breadcrumb Navigation */}
       <section className="bg-gray-50 border-b border-gray-200 py-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav className="flex items-center gap-2 text-sm">
-            <Link href="/" className="text-[#ED2024] hover:text-[#C91A1A] transition-colors">
+            <Link href="/" className="text-gray-600 hover:text-gray-900 transition-colors">
               Home
             </Link>
             <span className="text-gray-400">/</span>
-            <Link href="/test-library" className="text-[#ED2024] hover:text-[#C91A1A] transition-colors">
+            <Link href="/test-library" className="text-gray-600 hover:text-gray-900 transition-colors">
               Test Library
             </Link>
             <span className="text-gray-400">/</span>
@@ -207,12 +204,7 @@ export default function TestDetailsPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
             {/* Left Column - Test Details */}
             <div className="lg:col-span-1">
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
-                className="space-y-6"
-              >
+              <div className="space-y-6">
                 {/* Title */}
                 <div>
                   <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-6">
@@ -220,94 +212,80 @@ export default function TestDetailsPage() {
                   </h1>
                 </div>
 
-                {/* Test Type Badge */}
-                <div className="flex items-center gap-2">
-                  <div className="bg-[#ED2024] rounded-lg p-2">
-                    <FiBook className="h-4 w-4 text-white" />
-                  </div>
-                  <span className="px-4 py-2 bg-[#ED2024]/10 text-[#ED2024] rounded-lg font-medium text-sm border border-[#ED2024]/20">
-                    {skill.testType}
-                  </span>
-                </div>
 
                 {/* Duration */}
                 <div className="flex items-center gap-2">
-                  <div className="bg-gray-100 rounded-lg p-2">
+                  <div className="bg-gray-100 p-2">
                     <FiClock className="h-4 w-4 text-gray-700" />
                   </div>
-                  <span className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium text-sm border border-gray-200">
+                  <span className="px-4 py-2 bg-gray-100 text-gray-700 font-medium text-sm border border-gray-200">
                     {skill.duration} min
                   </span>
                 </div>
 
                 {/* Difficulty */}
                 <div className="flex items-center gap-2">
-                  <div className="bg-gray-100 rounded-lg p-2">
+                  <div className="bg-gray-100 p-2">
                     <FiBarChart className="h-4 w-4 text-gray-700" />
                   </div>
-                  <span className={`px-4 py-2 rounded-lg font-medium text-sm border ${
-                    difficultyColors[skill.difficulty] || 'bg-gray-100 text-gray-700 border-gray-200'
-                  }`}>
+                  <span className={`px-4 py-2 font-medium text-sm border ${difficultyColors[skill.difficulty] || 'bg-gray-100 text-gray-700 border-gray-200'
+                    }`}>
                     {skill.difficulty}
                   </span>
                 </div>
 
-                {/* Topics Count */}
-                {skill.topics && skill.topics.length > 0 && (
-                  <div className="pt-4 border-t border-gray-200">
-                    <p className="text-sm text-gray-600 mb-2">Topics Covered</p>
-                    <p className="text-lg font-semibold text-gray-900">
-                      {skill.topics.length} {skill.topics.length === 1 ? 'topic' : 'topics'}
-                    </p>
+                {/* Pricing Section */}
+                {skill.pricing && (
+                  <div className="">
+                    <div className="bg-gradient-to-br from-[#ED2024]/10 to-[#C91A1A]/10 p-4 border-2 border-[#ED2024]">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm font-medium text-gray-700">Price</span>
+                        <FiDollarSign className="h-5 w-5 text-[#ED2024]" />
+                      </div>
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-3xl font-bold text-[#ED2024]">${skill.pricing.price}</span>
+                        <span className="text-sm text-gray-600">USD</span>
+                      </div>
+                      <div className="w-full flex flex-row items-end justify-between">
+                        <p className="text-xs text-gray-600 mt-2 mb-3">One-time payment</p>
+                        <div className="flex justify-end">
+                          <button
+                            onClick={handlePurchase}
+                            className="cursor-pointer px-4 py-2 bg-gradient-to-r from-[#ED2024] to-[#C91A1A] text-white hover:from-[#C91A1A] hover:to-[#A01515] font-semibold text-sm flex items-center justify-center gap-2"
+                          >
+                            Buy Now
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 )}
 
                 {/* Action Buttons */}
-                <div className="pt-6 space-y-3">
-                  <motion.button
-                    onClick={handleStartAssessment}
-                    className="cursor-pointer w-full px-6 py-4 bg-[#ED2024] text-white rounded-lg hover:bg-[#C91A1A] transition-all font-semibold flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <FiPlay className="h-5 w-5" />
-                    Start Assessment
-                  </motion.button>
-                  <motion.button
-                    onClick={handlePreviewQuestions}
-                    className="cursor-pointer w-full px-6 py-4 bg-white border-2 border-gray-300 text-gray-700 rounded-lg hover:border-gray-400 hover:bg-gray-50 transition-all font-semibold flex items-center justify-center gap-2"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <FiEye className="h-5 w-5" />
-                    Preview Questions
-                  </motion.button>
-                  
-                  {/* Pricing Button */}
-                  {skill.pricing && (
-                    <motion.button
-                      onClick={handlePurchase}
-                      className="cursor-pointer w-full px-6 py-4 bg-gradient-to-r from-[#ED2024] to-[#C91A1A] text-white rounded-lg hover:from-[#C91A1A] hover:to-[#A01515] transition-all font-semibold flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
+                <div className=" space-y-3 pt-4 border-t border-gray-200">
+                  <div className="flex items-center justify-between gap-2">
+                    <button
+                      onClick={handleStartAssessment}
+                      className="cursor-pointer w-full py-3 bg-[#ED2024] text-white hover:bg-[#C91A1A] font-semibold text-sm flex items-center justify-center gap-2"
                     >
-                      <FiDollarSign className="h-5 w-5" />
-                      Purchase - ${skill.pricing.price}
-                    </motion.button>
-                  )}
+                      <FiPlay className="h-4 w-4" />
+                      Start Assessment
+                    </button>
+                    <button
+                      onClick={handlePreviewQuestions}
+                      className="cursor-pointer w-full py-3 bg-white border-2 border-gray-300 text-gray-700 hover:border-gray-400 hover:bg-gray-50 font-semibold text-sm flex items-center justify-center gap-2"
+                    >
+                      <FiEye className="h-4 w-4" />
+                      Preview Questions
+                    </button>
+                  </div>
                 </div>
-              </motion.div>
+              </div>
             </div>
 
             {/* Right Column - Test Information */}
             <div className="lg:col-span-2">
-              <motion.div
-                ref={ref}
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
-                className="space-y-8"
-              >
+              <div className="space-y-8">
                 {/* Summary Section */}
                 <div>
                   <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
@@ -325,8 +303,8 @@ export default function TestDetailsPage() {
                   </h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {skill?.coveredSkills?.map((coveredSkill, index) => (
-                      <div 
-                        className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-[#ED2024] transition-colors"
+                      <div
+                        className="flex items-center gap-3 p-4 bg-gray-50 border-2 border-gray-200"
                       >
                         <FiCheckCircle className="h-6 w-6 text-[#ED2024] flex-shrink-0" />
                         <span className="text-gray-800 font-semibold text-base">{coveredSkill}</span>
@@ -342,9 +320,9 @@ export default function TestDetailsPage() {
                   </h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {skill?.topics?.map((topic, index) => (
-                      <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-[#ED2024] hover:shadow-md transition-all"
+                      <div className="flex items-center gap-4 p-4 bg-gray-50 border-2 border-gray-200"
                       >
-                        <div className="bg-[#ED2024] rounded-lg p-2.5 flex-shrink-0">
+                        <div className="bg-[#ED2024] p-2.5 flex-shrink-0">
                           <FiTarget className="h-5 w-5 text-white" />
                         </div>
                         <span className="text-gray-800 font-semibold text-base">{topic.name}</span>
@@ -367,7 +345,7 @@ export default function TestDetailsPage() {
 
                 {/* Statistics Section */}
                 {skill.stats && (
-                  <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-6 border border-gray-200">
+                  <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-6 border border-gray-200">
                     <h3 className="text-xl font-bold text-gray-900 mb-4">Assessment Statistics</h3>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                       <div className="text-center">
@@ -397,7 +375,7 @@ export default function TestDetailsPage() {
                     <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
                       Prerequisites
                     </h2>
-                    <div className="bg-blue-50 rounded-lg p-5 border border-blue-200">
+                    <div className="bg-blue-50 p-5 border border-blue-200">
                       <p className="text-gray-700 mb-3 font-medium">Before taking this assessment, candidates should have:</p>
                       <ul className="space-y-2">
                         {skill.requirements.map((req, index) => (
@@ -419,7 +397,7 @@ export default function TestDetailsPage() {
                     </h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {skill.whatYouGet.map((item, index) => (
-                        <div className="flex items-center gap-3 p-4 bg-gradient-to-br from-[#ED2024]/5 to-[#C91A1A]/5 rounded-lg border border-[#ED2024]/20"
+                        <div className="flex items-center gap-3 p-4 bg-gradient-to-br from-[#ED2024]/5 to-[#C91A1A]/5 border border-[#ED2024]/20"
                         >
                           <FiAward className="h-5 w-5 text-[#ED2024] flex-shrink-0" />
                           <span className="text-gray-700 font-medium">{item}</span>
@@ -430,7 +408,7 @@ export default function TestDetailsPage() {
                 )}
 
                 {/* Features Highlight */}
-                <div className="bg-gradient-to-br from-[#ED2024]/5 to-[#C91A1A]/5 rounded-xl p-6 border border-[#ED2024]/20">
+                <div className="bg-gradient-to-br from-[#ED2024]/5 to-[#C91A1A]/5 p-6 border border-[#ED2024]/20">
                   <h3 className="text-xl font-bold text-gray-900 mb-4">Why Choose This Assessment?</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="flex items-start gap-3">
@@ -463,7 +441,7 @@ export default function TestDetailsPage() {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             </div>
           </div>
         </div>
@@ -472,14 +450,10 @@ export default function TestDetailsPage() {
       {/* Payment Required Modal */}
       {showPaymentModal && (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="bg-white rounded-lg border border-gray-200 p-6 sm:p-8 max-w-md w-full mx-4 shadow-xl"
-          >
+          <div className="bg-white border border-gray-200 p-6 sm:p-8 max-w-md w-full mx-4">
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
-                <div className="bg-yellow-100 rounded-full p-2">
+                <div className="bg-yellow-100 p-2">
                   <FiAlertCircle className="h-6 w-6 text-yellow-600" />
                 </div>
                 <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
@@ -493,13 +467,13 @@ export default function TestDetailsPage() {
                 <FiX className="h-6 w-6" />
               </button>
             </div>
-            
+
             <div className="mb-6">
               <p className="text-gray-700 mb-4 leading-relaxed">
                 Please complete the payment to access the assessment. You need to purchase this assessment before you can start taking it.
               </p>
-              
-              <div className="bg-gray-50 rounded-lg p-4 border border-gray-200 mb-4">
+
+              <div className="bg-gray-50 p-4 border border-gray-200 mb-4">
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600">Assessment Price:</span>
                   <span className="text-2xl font-bold text-[#ED2024]">
@@ -507,30 +481,30 @@ export default function TestDetailsPage() {
                   </span>
                 </div>
               </div>
-              
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+
+              <div className="bg-blue-50 border border-blue-200 p-4">
                 <p className="text-sm text-blue-800">
                   <strong>Note:</strong> After successful payment, you'll be redirected to start the assessment immediately.
                 </p>
               </div>
             </div>
-            
+
             <div className="flex flex-col sm:flex-row gap-3">
               <button
                 onClick={handleCloseModal}
-                className="flex-1 px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium text-sm sm:text-base"
+                className="flex-1 px-6 py-3 bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors font-medium text-sm sm:text-base"
               >
                 Cancel
               </button>
               <button
                 onClick={handleGoToPayment}
-                className="flex-1 px-6 py-3 bg-gradient-to-r from-[#ED2024] to-[#C91A1A] text-white rounded-lg hover:from-[#C91A1A] hover:to-[#A01515] transition-all font-semibold flex items-center justify-center gap-2 text-sm sm:text-base"
+                className="flex-1 px-6 py-3 bg-gradient-to-r from-[#ED2024] to-[#C91A1A] text-white hover:from-[#C91A1A] hover:to-[#A01515] font-semibold flex items-center justify-center gap-2 text-sm sm:text-base"
               >
                 <FiDollarSign className="h-5 w-5" />
                 Proceed to Payment
               </button>
             </div>
-          </motion.div>
+          </div>
         </div>
       )}
 

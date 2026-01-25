@@ -25,7 +25,7 @@ export default function CertificatesPage() {
           {certificates.map((cert) => (
             <div
               key={cert.id}
-              className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow"
+              className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm"
             >
               <div className="flex items-center justify-between">
                 <div>

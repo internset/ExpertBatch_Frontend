@@ -1,13 +1,8 @@
 'use client';
 
-import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
 import { FiCheckCircle, FiAward } from 'react-icons/fi';
 
 export default function BenefitsSection() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
-
   const benefits = [
     {
       title: 'Secure & Reliable',
@@ -31,104 +26,47 @@ export default function BenefitsSection() {
     }
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.1,
-      },
-    },
-  };
-
-  const headingVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.22, 1, 0.36, 1],
-      },
-    },
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, x: -30 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.22, 1, 0.36, 1],
-      },
-    },
-    hover: {
-      x: 5,
-      scale: 1.02,
-      transition: {
-        duration: 0.3,
-        ease: [0.22, 1, 0.36, 1],
-      },
-    },
-  };
-
-  const iconVariants = {
-    hover: {
-      scale: 1.2,
-      rotate: 360,
-      transition: {
-        duration: 0.5,
-        ease: 'easeInOut',
-      },
-    },
-  };
-
   return (
-    <section ref={ref} className="py-20 bg-gradient-to-br from-gray-50 to-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          className="text-center mb-16"
-          variants={headingVariants}
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-        >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+    <section className="py-24 bg-white relative overflow-hidden">
+      {/* Subtle background pattern */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#f3f4f608_1px,transparent_1px),linear-gradient(to_bottom,#f3f4f608_1px,transparent_1px)] bg-[size_4rem_4rem]" />
+      
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-20">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
             Key Benefits
           </h2>
-        </motion.div>
+        </div>
 
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto"
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-        >
+        <div className="max-w-5xl mx-auto space-y-8">
           {benefits.map((benefit, index) => (
-            <motion.div
+            <div
               key={index}
-              className="flex items-start gap-4 bg-white rounded-lg p-6 shadow-sm hover:shadow-lg transition-shadow"
-              variants={cardVariants}
-              whileHover="hover"
+              className="group relative flex items-start gap-6 pb-8 border-b border-gray-200 last:border-0 last:pb-0"
             >
-              <motion.div
-                variants={iconVariants}
-                className="flex-shrink-0 mt-1"
-              >
-                {index === 4 ? (
-                  <FiAward className="h-6 w-6 text-[#ED2024]" />
-                ) : (
-                  <FiCheckCircle className="h-6 w-6 text-[#ED2024]" />
-                )}
-              </motion.div>
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">{benefit.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{benefit.description}</p>
+              {/* Icon */}
+              <div className="flex-shrink-0 mt-1">
+                <div className="w-12 h-12 flex items-center justify-center bg-gradient-to-br from-[#ED2024] to-[#C91A1A] rounded-0">
+                  {index === 4 ? (
+                    <FiAward className="h-6 w-6 text-white" />
+                  ) : (
+                    <FiCheckCircle className="h-6 w-6 text-white" />
+                  )}
+                </div>
               </div>
-            </motion.div>
+              
+              {/* Content */}
+              <div className="flex-1 pt-1">
+                <h3 className="text-2xl font-bold text-gray-900 mb-3 leading-tight">
+                  {benefit.title}
+                </h3>
+                <p className="text-gray-600 leading-relaxed text-lg">
+                  {benefit.description}
+                </p>
+              </div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

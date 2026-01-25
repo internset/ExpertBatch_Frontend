@@ -1,8 +1,7 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { motion, useInView } from 'framer-motion';
 import Link from 'next/link';
 import Navigation from '@/components/landing/Navigation';
 import Footer from '@/components/landing/Footer';
@@ -19,8 +18,6 @@ export default function PreviewQuestionsPage() {
   const router = useRouter();
   const params = useParams();
   const skillName = params.skillName ? decodeURIComponent(params.skillName) : '';
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   // Dummy questions data - 5 lorem ipsum questions
   const [questions] = useState([
@@ -126,7 +123,7 @@ export default function PreviewQuestionsPage() {
       <Navigation />
       
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-10">
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-3 sm:py-4">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
             <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-1 sm:flex-initial">

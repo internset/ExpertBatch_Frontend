@@ -1,8 +1,5 @@
 'use client';
 
-import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
-import Image from 'next/image';
 import Navigation from '@/components/landing/Navigation';
 import Footer from '@/components/landing/Footer';
 import { 
@@ -16,9 +13,6 @@ import {
 } from 'react-icons/fi';
 
 export default function AboutPage() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
-
   const values = [
     {
       icon: FiTarget,
@@ -49,29 +43,6 @@ export default function AboutPage() {
     { number: '100+', label: 'Skills Available' }
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.22, 1, 0.36, 1],
-      },
-    },
-  };
-
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
@@ -79,12 +50,7 @@ export default function AboutPage() {
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-gray-200 via-gray-100 to-gray-200 py-16 sm:py-20 lg:py-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            className="text-center"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
+          <div className="text-center">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-6">
               About <span className="text-[#ED2024]">ExpertBatch</span>
             </h1>
@@ -92,20 +58,14 @@ export default function AboutPage() {
               We're revolutionizing talent assessment by providing organizations with a comprehensive, 
               skill-based platform to evaluate and build their talent pool with confidence.
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Our Story Section */}
-      <section ref={ref} className="py-20 bg-white">
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
                 Our Story
@@ -127,13 +87,7 @@ export default function AboutPage() {
                 </p>
               </div>
             </div>
-            <motion.div
-              className="bg-gradient-to-br from-[#ED2024]/10 to-[#C91A1A]/10 rounded-2xl p-8 lg:p-12"
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
+            <div className="bg-gradient-to-br from-[#ED2024]/10 to-[#C91A1A]/10 rounded-2xl p-8 lg:p-12">
               <div className="space-y-6">
                 <div className="flex items-center gap-4">
                   <div className="bg-[#ED2024] rounded-lg p-3">
@@ -163,37 +117,24 @@ export default function AboutPage() {
                   </div>
                 </div>
               </div>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Statistics Section */}
       <section className="py-20 bg-pink-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            className="text-center mb-12"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
+          <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
               Our Impact
             </h2>
-          </motion.div>
-          <motion.div
-            className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
+          </div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {stats.map((stat, index) => (
-              <motion.div
+              <div
                 key={index}
-                className="bg-white rounded-lg p-6 text-center border border-gray-200 shadow-sm"
-                variants={itemVariants}
+                className="bg-white rounded-lg p-6 text-center border border-gray-200"
               >
                 <div className="text-3xl sm:text-4xl font-bold text-[#ED2024] mb-2">
                   {stat.number}
@@ -201,55 +142,41 @@ export default function AboutPage() {
                 <div className="text-sm sm:text-base text-gray-600">
                   {stat.label}
                 </div>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Our Values Section */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
+          <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
               Our Values
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               The principles that guide everything we do
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {values.map((value, index) => {
               const IconComponent = value.icon;
               return (
-                <motion.div
+                <div
                   key={index}
-                  className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm hover:shadow-lg transition-shadow"
-                  variants={itemVariants}
-                  whileHover={{ y: -5, scale: 1.02 }}
+                  className="bg-white rounded-lg p-6 border border-gray-200"
                 >
                   <div className="bg-[#ED2024] rounded-lg p-3 w-fit mb-4">
                     <IconComponent className="h-6 w-6 text-white" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-3">{value.title}</h3>
                   <p className="text-gray-600 leading-relaxed">{value.description}</p>
-                </motion.div>
+                </div>
               );
             })}
-          </motion.div>
+          </div>
         </div>
       </section>
 

@@ -1,11 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { FiChevronDown, FiHelpCircle } from 'react-icons/fi';
 
 export default function FAQSection() {
-    const [openIndex, setOpenIndex] = useState(0); // First FAQ open by default
+    const [openIndex, setOpenIndex] = useState(null); // No FAQ open by default
 
     const faqs = [
         {
@@ -51,31 +50,14 @@ export default function FAQSection() {
     ];
 
     const toggleFAQ = (index) => {
-        // Prevent closing if it's the only open FAQ
-        if (openIndex === index) {
-            // Don't allow closing if it's the only one open
-            // Check if there are other FAQs that could be opened
-            const otherOpenIndex = faqs.findIndex((_, i) => i !== index);
-            if (otherOpenIndex !== -1) {
-                // If trying to close the current one, open the first available one instead
-                setOpenIndex(otherOpenIndex === 0 ? 1 : 0);
-            }
-        } else {
-            // Open the clicked FAQ
-            setOpenIndex(index);
-        }
+        // Toggle FAQ: if clicking the same FAQ, close it; otherwise open the clicked one
+        setOpenIndex(openIndex === index ? null : index);
     };
 
     return (
         <section className="py-20 bg-white">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <motion.div
-                    className="text-center mb-12"
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                >
+                <div className="text-center mb-12">
                     <div className="inline-flex items-center justify-center w-16 h-16 bg-[#ED2024]/10 rounded-full mb-4">
                         <FiHelpCircle className="h-8 w-8 text-[#ED2024]" />
                     </div>
@@ -85,53 +67,47 @@ export default function FAQSection() {
                     <p className="text-lg text-gray-600 max-w-2xl mx-auto">
                         Everything you need to know about ExpertBatch
                     </p>
-                </motion.div>
+                </div>
 
                 <div className="space-y-4">
                     {faqs.map((faq, index) => (
-                        <motion.div
+                        <div
                             key={index}
-                            className="border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow"
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.4, delay: index * 0.1 }}
+                            className="border border-gray-200 rounded-lg overflow-hidden bg-white"
                         >
                             <button
                                 onClick={() => toggleFAQ(index)}
-                                className={`cursor-pointer w-full px-6 py-5 text-left rounded-lg flex items-center justify-between  transition-colors ${
-                                    openIndex === index ? 'bg-[#ED2024]/10' : 'bg-white hover:bg-gray-50'
+                                className={`cursor-pointer w-full px-6 py-5 text-left flex items-center justify-between transition-colors ${
+                                    openIndex === index ? 'bg-[#ED2024] text-white' : 'bg-white hover:bg-gray-50'
                                 }`}
                             >
-                                <span className="text-lg font-semibold text-gray-900 pr-8">
+                                <span className={`text-lg font-semibold pr-8 ${
+                                    openIndex === index ? 'text-white' : 'text-gray-900'
+                                }`}>
                                     {faq.question}
                                 </span>
-                                <motion.div
-                                    animate={{ rotate: openIndex === index ? 180 : 0 }}
-                                    transition={{ duration: 0.3 }}
-                                    className="flex-shrink-0"
+                                <div
+                                    className={`flex-shrink-0 transition-transform ${
+                                        openIndex === index ? 'rotate-180' : 'rotate-0'
+                                    }`}
                                 >
-                                    <FiChevronDown className="h-5 w-5 text-gray-500" />
-                                </motion.div>
+                                    <FiChevronDown className={`h-5 w-5 ${
+                                        openIndex === index ? 'text-white' : 'text-gray-500'
+                                    }`} />
+                                </div>
                             </button>
-                            <AnimatePresence>
-                                {openIndex === index && (
-                                    <motion.div
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{ height: 'auto', opacity: 1 }}
-                                        exit={{ height: 0, opacity: 0 }}
-                                        transition={{ duration: 0.3, ease: 'easeInOut' }}
-                                        className="overflow-hidden"
-                                    >
-                                        <div className="px-6 pb-5 pt-0">
-                                            <p className="text-gray-600 leading-relaxed">
-                                                {faq.answer}
-                                            </p>
-                                        </div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </motion.div>
+                            <div 
+                                className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                                    openIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                                }`}
+                            >
+                                <div className="px-6 pb-5 pt-2">
+                                    <p className="text-gray-600 leading-relaxed">
+                                        {faq.answer}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     ))}
                 </div>
             </div>

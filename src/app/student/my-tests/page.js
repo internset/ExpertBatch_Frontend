@@ -149,7 +149,7 @@ export default function MyTestsPage() {
           {filteredTests.map((test) => (
             <div
               key={test.id}
-              className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow"
+              className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm"
             >
               {/* Badge at top left */}
               {test.badge && (
@@ -222,7 +222,7 @@ export default function MyTestsPage() {
           {filteredTests.map((test) => (
             <div
               key={test.id}
-              className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow"
+              className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm"
             >
               {/* Badge at top left */}
               {test.badge && (
