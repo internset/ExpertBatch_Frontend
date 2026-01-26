@@ -1480,7 +1480,7 @@ export default function PublicExamPage() {
                 alt="ExpertBatch Logo"
                 width={201}
                 height={32}
-                className="h-6 sm:h-8 w-auto"
+                className="h-[1.875rem] w-auto"
               />
             </div>
           </div>
@@ -1584,7 +1584,7 @@ export default function PublicExamPage() {
                 alt="ExpertBatch Logo"
                 width={201}
                 height={32}
-                className="h-6 sm:h-8 w-auto flex-shrink-0"
+                className="h-[1.875rem] w-auto flex-shrink-0"
               />
               <h1 className="text-base sm:text-lg font-semibold text-primary-black truncate">
                 {skill?.name || 'Exam'}

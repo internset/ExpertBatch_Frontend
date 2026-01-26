@@ -17,3 +17,50 @@ body {
 .text-primary-black {
   color: #000000;
 }
+
+/* Global Button Styling - Applied to all buttons */
+button {
+  border-radius: 2px !important;
+  cursor: pointer !important;
+}
+
+/* Global Input Styling - Border Radius and Border Colors */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+input[type="search"],
+input[type="url"],
+textarea,
+select {
+  border-radius: 2px !important;
+  transition: border-color 0.2s ease-in-out;
+}
+
+/* Hover state - gray (applies to all inputs with border) */
+input[type="text"]:hover,
+input[type="email"]:hover,
+input[type="password"]:hover,
+input[type="number"]:hover,
+input[type="tel"]:hover,
+input[type="search"]:hover,
+input[type="url"]:hover,
+textarea:hover,
+select:hover {
+  border-color: #9ca3af !important; /* border-gray-400 */
+}
+
+/* Focus state - dark gray (not red) */
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="tel"]:focus,
+input[type="search"]:focus,
+input[type="url"]:focus,
+textarea:focus,
+select:focus {
+  outline: none !important;
+  border-color: #4b5563 !important; /* border-gray-600 - dark gray */
+}

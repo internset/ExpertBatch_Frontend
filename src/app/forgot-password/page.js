@@ -160,21 +160,35 @@ export default function ForgotPasswordPage() {
   if (step === 4) {
     return (
       <div className="min-h-screen flex">
-        {/* Left Side - Promotional Background */}
+        {/* Left Side - Company Collaborations */}
         <div 
           className="hidden lg:flex lg:w-1/3 relative bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80)'
+            backgroundImage: 'url(https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80)'
           }}
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-[#ED2024]/80 to-[#C91A1A]/60"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-[#ED2024]/85 to-[#C91A1A]/70"></div>
           <div className="relative z-10 flex flex-col justify-center items-start p-12 text-white">
-            <h1 className="text-4xl font-bold mb-4 leading-tight">
-              Better Talent Measurements
+            <h1 className="text-4xl font-bold mb-6 leading-tight">
+              Trusted by Industry Leaders
             </h1>
-            <p className="text-lg text-white/90 leading-relaxed max-w-md">
-              From Instinct to Insights: Make Powerful and Precise People Decisions
+            <p className="text-lg text-white/90 mb-8 leading-relaxed max-w-md">
+              Join thousands of companies that trust ExpertBatch for their talent assessment needs
             </p>
+            <div className="space-y-4 w-full">
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+                <div className="text-xl font-semibold mb-1">Fortune 500 Companies</div>
+                <div className="text-white/80 text-sm">200+ leading enterprises</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+                <div className="text-xl font-semibold mb-1">Tech Startups</div>
+                <div className="text-white/80 text-sm">300+ innovative companies</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+                <div className="text-xl font-semibold mb-1">Global Partnerships</div>
+                <div className="text-white/80 text-sm">50+ countries worldwide</div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -190,7 +204,7 @@ export default function ForgotPasswordPage() {
                   width={201}
                   height={32}
                   priority
-                  className="h-10 w-auto"
+                  className="h-[1.875rem] w-auto"
                 />
               </Link>
             </div>
@@ -202,7 +216,7 @@ export default function ForgotPasswordPage() {
                 </div>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+              <h1 className="text-[24px] font-semibold text-gray-900 mb-4">
                 Password Reset Successful!
               </h1>
               
@@ -218,21 +232,35 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="min-h-screen flex">
-      {/* Left Side - Promotional Background */}
+      {/* Left Side - Company Collaborations */}
       <div 
         className="hidden lg:flex lg:w-1/3 relative bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: 'url(https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80)'
+          backgroundImage: 'url(https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80)'
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-[#ED2024]/80 to-[#C91A1A]/60"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-[#ED2024]/85 to-[#C91A1A]/70"></div>
         <div className="relative z-10 flex flex-col justify-center items-start p-12 text-white">
-          <h1 className="text-4xl font-bold mb-4 leading-tight">
-            Better Talent Measurements
+          <h1 className="text-4xl font-bold mb-6 leading-tight">
+            Trusted by Industry Leaders
           </h1>
-          <p className="text-lg text-white/90 leading-relaxed max-w-md">
-            From Instinct to Insights: Make Powerful and Precise People Decisions
+          <p className="text-lg text-white/90 mb-8 leading-relaxed max-w-md">
+            Join thousands of companies that trust ExpertBatch for their talent assessment needs
           </p>
+          <div className="space-y-4 w-full">
+            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+              <div className="text-xl font-semibold mb-1">Fortune 500 Companies</div>
+              <div className="text-white/80 text-sm">200+ leading enterprises</div>
+            </div>
+            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+              <div className="text-xl font-semibold mb-1">Tech Startups</div>
+              <div className="text-white/80 text-sm">300+ innovative companies</div>
+            </div>
+            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+              <div className="text-xl font-semibold mb-1">Global Partnerships</div>
+              <div className="text-white/80 text-sm">50+ countries worldwide</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -247,7 +275,7 @@ export default function ForgotPasswordPage() {
               width={201}
               height={32}
               priority
-              className="h-10 w-auto"
+              className="h-[1.875rem] w-auto"
             />
           </div>
 
@@ -256,7 +284,7 @@ export default function ForgotPasswordPage() {
             {/* Content */}
             <div className="p-8">
               <div className="mb-6">
-                <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
+                <h1 className="text-[24px] font-semibold text-gray-900 mb-2">
                   Forgot Password?
                 </h1>
                 <p className="text-gray-600">
@@ -288,7 +316,7 @@ export default function ForgotPasswordPage() {
                         setEmail(e.target.value);
                         setError('');
                       }}
-                      className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#ED2024]"
+                      className="w-full px-4 py-3 border border-gray-300"
                       placeholder="Email address"
                       required
                     />
@@ -299,12 +327,7 @@ export default function ForgotPasswordPage() {
                     disabled={loading}
                     className="w-full px-6 py-3 bg-[#ED2024] text-white font-semibold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {loading ? (
-                      <>
-                        <div className="h-5 w-5 border-2 border-white border-t-transparent"></div>
-                        Sending OTP...
-                      </>
-                    ) : (
+                    {loading ? 'Loading...' : (
                       <>
                         Send Reset Link
                         <FiArrowRight className="h-5 w-5" />
@@ -339,7 +362,7 @@ export default function ForgotPasswordPage() {
                           onChange={(e) => handleOtpChange(index, e.target.value)}
                           onKeyDown={(e) => handleOtpKeyDown(index, e)}
                           onPaste={handleOtpPaste}
-                          className="w-12 h-14 text-center text-xl font-semibold border-2 border-gray-300 focus:outline-none focus:border-[#ED2024]"
+                          className="w-12 h-14 text-center text-xl font-semibold border-2 border-gray-300"
                           required
                         />
                       ))}
@@ -362,12 +385,7 @@ export default function ForgotPasswordPage() {
                     disabled={loading || otp.join('').length !== 6}
                     className="w-full px-6 py-3 bg-[#ED2024] text-white font-semibold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {loading ? (
-                      <>
-                        <div className="h-5 w-5 border-2 border-white border-t-transparent"></div>
-                        Verifying...
-                      </>
-                    ) : (
+                    {loading ? 'Loading...' : (
                       <>
                         Verify OTP
                         <FiArrowRight className="h-5 w-5" />
@@ -396,7 +414,7 @@ export default function ForgotPasswordPage() {
                           setNewPassword(e.target.value);
                           setError('');
                         }}
-                        className="w-full px-4 pr-12 py-3 border border-gray-300 focus:outline-none focus:border-[#ED2024]"
+                        className="w-full px-4 pr-12 py-3 border border-gray-300"
                         placeholder="Enter new password (min 6 characters)"
                         required
                         minLength={6}
@@ -424,7 +442,7 @@ export default function ForgotPasswordPage() {
                           setConfirmPassword(e.target.value);
                           setError('');
                         }}
-                        className="w-full px-4 pr-12 py-3 border border-gray-300 focus:outline-none focus:border-[#ED2024]"
+                        className="w-full px-4 pr-12 py-3 border border-gray-300"
                         placeholder="Confirm new password"
                         required
                         minLength={6}
@@ -444,12 +462,7 @@ export default function ForgotPasswordPage() {
                     disabled={loading}
                     className="w-full px-6 py-3 bg-[#ED2024] text-white font-semibold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {loading ? (
-                      <>
-                        <div className="h-5 w-5 border-2 border-white border-t-transparent"></div>
-                        Resetting Password...
-                      </>
-                    ) : (
+                    {loading ? 'Loading...' : (
                       <>
                         Reset Password
                         <FiArrowRight className="h-5 w-5" />

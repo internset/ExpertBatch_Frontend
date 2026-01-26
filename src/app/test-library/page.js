@@ -173,7 +173,7 @@ export default function TestLibraryPage() {
                   placeholder="Search for skills or assessments..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 border-2 border-gray-300 focus:outline-none text-gray-900 text-base"
+                  className="w-full pl-12 pr-4 py-4 border-2 border-gray-300 focus:outline-none bg-white text-black text-base"
                 />
                 {searchTerm && (
                   <button

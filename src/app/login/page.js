@@ -13,6 +13,7 @@ export default function LoginPage() {
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
   const [showLoginPassword, setShowLoginPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   
   // Signup state
   const [signupFirstName, setSignupFirstName] = useState('');
@@ -112,23 +113,84 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex">
-      {/* Left Side - Promotional Background */}
-      <div 
-        className="hidden lg:flex lg:w-1/3 relative bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: 'url(https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80)'
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-br from-[#ED2024]/80 to-[#C91A1A]/60"></div>
-        <div className="relative z-10 flex flex-col justify-center items-start p-12 text-white">
-          <h1 className="text-4xl font-bold mb-4 leading-tight">
-            Better Talent Measurements
-          </h1>
-          <p className="text-lg text-white/90 leading-relaxed max-w-md">
-            From Instinct to Insights: Make Powerful and Precise People Decisions
-          </p>
+      {/* Left Side - Dynamic Content based on Tab */}
+      {activeTab === 'login' ? (
+        <div 
+          className="hidden lg:flex lg:w-1/3 relative bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: 'url(https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80)'
+          }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-[#ED2024]/85 to-[#C91A1A]/70"></div>
+          <div className="relative z-10 flex flex-col justify-center items-start p-12 text-white">
+            <h1 className="text-4xl font-bold mb-6 leading-tight">
+              Trusted by Leading Organizations
+            </h1>
+            <div className="space-y-6 w-full">
+              <div>
+                <div className="text-5xl font-bold mb-2">50K+</div>
+                <div className="text-lg text-white/90">Candidates Assessed</div>
+              </div>
+              <div>
+                <div className="text-5xl font-bold mb-2">500+</div>
+                <div className="text-lg text-white/90">Companies Using Our Platform</div>
+              </div>
+              <div>
+                <div className="text-5xl font-bold mb-2">95%</div>
+                <div className="text-lg text-white/90">Accuracy Rate in Skill Assessment</div>
+              </div>
+              <div>
+                <div className="text-5xl font-bold mb-2">24/7</div>
+                <div className="text-lg text-white/90">Proctoring & Support Available</div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div 
+          className="hidden lg:flex lg:w-1/3 relative bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: 'url(https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80)'
+          }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-[#ED2024]/85 to-[#C91A1A]/70"></div>
+          <div className="relative z-10 flex flex-col justify-center items-start p-12 text-white">
+            <h1 className="text-4xl font-bold mb-6 leading-tight">
+              Start Your Journey Today
+            </h1>
+            <div className="space-y-5 w-full">
+              <div className="flex items-start gap-3">
+                <div className="text-2xl">✓</div>
+                <div>
+                  <div className="text-lg font-semibold mb-1">Skill-Based Assessment</div>
+                  <div className="text-white/90">Get evaluated on real-world skills, not just credentials</div>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="text-2xl">✓</div>
+                <div>
+                  <div className="text-lg font-semibold mb-1">Instant Results</div>
+                  <div className="text-white/90">Receive detailed performance reports immediately</div>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="text-2xl">✓</div>
+                <div>
+                  <div className="text-lg font-semibold mb-1">Career Opportunities</div>
+                  <div className="text-white/90">Connect with top companies looking for your skills</div>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="text-2xl">✓</div>
+                <div>
+                  <div className="text-lg font-semibold mb-1">Secure & Fair</div>
+                  <div className="text-white/90">Advanced proctoring ensures fair assessment for everyone</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Right Side - Login Form */}
       <div className="flex-1 flex items-center justify-center bg-white p-8 lg:p-12">
@@ -142,7 +204,7 @@ export default function LoginPage() {
                 width={201}
                 height={32}
                 priority
-                className="h-10 w-auto"
+                className="h-[1.875rem] w-auto"
               />
             </Link>
           </div>
@@ -164,7 +226,7 @@ export default function LoginPage() {
                   className="space-y-5"
                 >
                   <div>
-                    <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
+                    <h2 className="text-[24px] font-semibold text-gray-900 mb-2">
                       Login to your ExpertBatch account
                     </h2>
                   </div>
@@ -178,7 +240,7 @@ export default function LoginPage() {
                       type="email"
                       value={loginEmail}
                       onChange={(e) => setLoginEmail(e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#ED2024]"
+                      className="w-full px-4 py-3 border border-gray-300"
                       placeholder="Email Address"
                       required
                     />
@@ -194,7 +256,7 @@ export default function LoginPage() {
                         type={showLoginPassword ? 'text' : 'password'}
                         value={loginPassword}
                         onChange={(e) => setLoginPassword(e.target.value)}
-                        className="w-full px-4 pr-12 py-3 border border-gray-300 focus:outline-none focus:border-[#ED2024]"
+                        className="w-full px-4 pr-12 py-3 border border-gray-300"
                         placeholder="Password"
                         required
                       />
@@ -208,8 +270,20 @@ export default function LoginPage() {
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-end">
-                    <Link href="/forgot-password" className="text-sm text-[#ED2024]">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center ">
+                      <input
+                        type="checkbox"
+                        id="rememberMe"
+                        checked={rememberMe}
+                        onChange={(e) => setRememberMe(e.target.checked)}
+                        className="border-gray-300 text-[#ED2024] cursor-pointer"
+                      />
+                      <label htmlFor="rememberMe" className="ml-2 text-sm text-gray-700 cursor-pointer">
+                        Remember me
+                      </label>
+                    </div>
+                    <Link href="/forgot-password" className="text-sm text-[#ED2024] font-semibold hover:text-[#C91A1A] transition-colors">
                       Forgot Password?
                     </Link>
                   </div>
@@ -219,14 +293,7 @@ export default function LoginPage() {
                     disabled={loading}
                     className="w-full px-6 py-3 bg-[#ED2024] text-white font-semibold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {loading ? (
-                      <>
-                        <div className="h-5 w-5 border-2 border-white border-t-transparent"></div>
-                        Logging in...
-                      </>
-                    ) : (
-                      'Login to ExpertBatch'
-                    )}
+                    {loading ? 'Loading...' : 'Login to ExpertBatch'}
                   </button>
                 </form>
               )}
@@ -238,7 +305,7 @@ export default function LoginPage() {
                   className="space-y-5"
                 >
                   <div>
-                    <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
+                    <h2 className="text-[24px] font-semibold text-gray-900 mb-2">
                       Create your ExpertBatch account
                     </h2>
                   </div>
@@ -253,7 +320,7 @@ export default function LoginPage() {
                         type="text"
                         value={signupFirstName}
                         onChange={(e) => setSignupFirstName(e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#ED2024]"
+                        className="w-full px-4 py-3 border border-gray-300"
                         placeholder="John"
                         required
                       />
@@ -267,7 +334,7 @@ export default function LoginPage() {
                         type="text"
                         value={signupLastName}
                         onChange={(e) => setSignupLastName(e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#ED2024]"
+                        className="w-full px-4 py-3 border border-gray-300"
                         placeholder="Doe"
                         required
                       />
@@ -283,59 +350,61 @@ export default function LoginPage() {
                       type="email"
                       value={signupEmail}
                       onChange={(e) => setSignupEmail(e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-[#ED2024]"
+                      className="w-full px-4 py-3 border border-gray-300"
                       placeholder="your.email@example.com"
                       required
                     />
                   </div>
 
-                  <div>
-                    <label htmlFor="signupPassword" className="block text-sm font-medium text-gray-700 mb-2">
-                      Password
-                    </label>
-                    <div className="relative">
-                      <input
-                        id="signupPassword"
-                        type={showSignupPassword ? 'text' : 'password'}
-                        value={signupPassword}
-                        onChange={(e) => setSignupPassword(e.target.value)}
-                        className="w-full px-4 pr-12 py-3 border border-gray-300 focus:outline-none focus:border-[#ED2024]"
-                        placeholder="At least 6 characters"
-                        required
-                        minLength={6}
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setShowSignupPassword(!showSignupPassword)}
-                        className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 z-10"
-                      >
-                        {showSignupPassword ? <FiEyeOff className="h-5 w-5" /> : <FiEye className="h-5 w-5" />}
-                      </button>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="signupPassword" className="block text-sm font-medium text-gray-700 mb-2">
+                        Password
+                      </label>
+                      <div className="relative">
+                        <input
+                          id="signupPassword"
+                          type={showSignupPassword ? 'text' : 'password'}
+                          value={signupPassword}
+                          onChange={(e) => setSignupPassword(e.target.value)}
+                          className="w-full px-4 pr-12 py-3 border border-gray-300"
+                          placeholder="At least 6 characters"
+                          required
+                          minLength={6}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowSignupPassword(!showSignupPassword)}
+                          className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 z-10"
+                        >
+                          {showSignupPassword ? <FiEyeOff className="h-5 w-5" /> : <FiEye className="h-5 w-5" />}
+                        </button>
+                      </div>
                     </div>
-                  </div>
 
-                  <div>
-                    <label htmlFor="signupConfirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
-                      Confirm Password
-                    </label>
-                    <div className="relative">
-                      <input
-                        id="signupConfirmPassword"
-                        type={showConfirmPassword ? 'text' : 'password'}
-                        value={signupConfirmPassword}
-                        onChange={(e) => setSignupConfirmPassword(e.target.value)}
-                        className="w-full px-4 pr-12 py-3 border border-gray-300 focus:outline-none focus:border-[#ED2024]"
-                        placeholder="Confirm your password"
-                        required
-                        minLength={6}
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 z-10"
-                      >
-                        {showConfirmPassword ? <FiEyeOff className="h-5 w-5" /> : <FiEye className="h-5 w-5" />}
-                      </button>
+                    <div>
+                      <label htmlFor="signupConfirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
+                        Confirm Password
+                      </label>
+                      <div className="relative">
+                        <input
+                          id="signupConfirmPassword"
+                          type={showConfirmPassword ? 'text' : 'password'}
+                          value={signupConfirmPassword}
+                          onChange={(e) => setSignupConfirmPassword(e.target.value)}
+                          className="w-full px-4 pr-12 py-3 border border-gray-300"
+                          placeholder="Confirm your password"
+                          required
+                          minLength={6}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                          className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 z-10"
+                        >
+                          {showConfirmPassword ? <FiEyeOff className="h-5 w-5" /> : <FiEye className="h-5 w-5" />}
+                        </button>
+                      </div>
                     </div>
                   </div>
 
@@ -363,14 +432,7 @@ export default function LoginPage() {
                     disabled={loading}
                     className="w-full px-6 py-3 bg-[#ED2024] text-white font-semibold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {loading ? (
-                      <>
-                        <div className="h-5 w-5 border-2 border-white border-t-transparent"></div>
-                        Creating account...
-                      </>
-                    ) : (
-                      'Create Account'
-                    )}
+                    {loading ? 'Loading...' : 'Create Account'}
                   </button>
                 </form>
               )}
@@ -387,7 +449,7 @@ export default function LoginPage() {
                     setActiveTab('signup');
                     setError('');
                   }}
-                  className="text-[#ED2024] cursor-pointer"
+                  className="text-[#ED2024] font-semibold hover:text-[#C91A1A] transition-colors cursor-pointer"
                 >
                   Sign Up
                 </button>
@@ -400,7 +462,7 @@ export default function LoginPage() {
                     setActiveTab('login');
                     setError('');
                   }}
-                  className="text-[#ED2024] cursor-pointer"
+                  className="text-[#ED2024] font-semibold hover:text-[#C91A1A] transition-colors cursor-pointer"
                 >
                   Log in
                 </button>

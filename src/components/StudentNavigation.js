@@ -91,7 +91,7 @@ export default function StudentNavigation() {
                 alt="ExpertBatch Logo"
                 width={201}
                 height={32}
-                className="h-8 w-auto"
+                className="h-[1.875rem] w-auto"
               />
             </button>
           </div>

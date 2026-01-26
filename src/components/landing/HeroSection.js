@@ -24,9 +24,9 @@ export default function HeroSection() {
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
 
       {/* Decorative Elements */}
-      <div className="absolute top-20 left-10 w-20 h-20 bg-gradient-to-br from-[#ED2024]/20 to-[#C91A1A]/20 rounded-2xl backdrop-blur-sm border border-white/10 rotate-12 hidden lg:block" />
-      <div className="absolute top-40 right-20 w-16 h-16 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full backdrop-blur-sm border border-white/10 hidden lg:block" />
-      <div className="absolute bottom-32 left-1/4 w-24 h-24 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-3xl backdrop-blur-sm border border-white/10 -rotate-12 hidden lg:block" />
+      <div className="absolute top-10 left-4 w-20 h-20 bg-gradient-to-br from-[#ED2024]/20 to-[#C91A1A]/20 rounded-2xl backdrop-blur-sm border border-white/10 rotate-12 hidden lg:block z-0" />
+      <div className="absolute top-10 right-4 w-16 h-16 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full backdrop-blur-sm border border-white/10 hidden lg:block z-0" />
+      <div className="absolute bottom-10 right-10 w-24 h-24 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-3xl backdrop-blur-sm border border-white/10 -rotate-12 hidden lg:block z-0" />
 
       {/* Main Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">

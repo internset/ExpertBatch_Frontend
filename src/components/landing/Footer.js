@@ -70,7 +70,7 @@ export default function Footer() {
                 alt="ExpertBatch Logo"
                 width={201}
                 height={32}
-                className="h-8 w-auto mb-4"
+                className="h-[1.875rem] w-auto mb-4"
                 priority
               />
               <p className="text-gray-600 text-sm leading-relaxed mb-6 max-w-sm">

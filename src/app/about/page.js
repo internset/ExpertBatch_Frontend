@@ -87,10 +87,10 @@ export default function AboutPage() {
                 </p>
               </div>
             </div>
-            <div className="bg-gradient-to-br from-[#ED2024]/10 to-[#C91A1A]/10 rounded-2xl p-8 lg:p-12">
+            <div className="bg-gradient-to-br from-[#ED2024]/10 to-[#C91A1A]/10 rounded-[2px] p-8 lg:p-12">
               <div className="space-y-6">
                 <div className="flex items-center gap-4">
-                  <div className="bg-[#ED2024] rounded-lg p-3">
+                  <div className="bg-[#ED2024] rounded-[2px] p-3">
                     <FiGlobe className="h-6 w-6 text-white" />
                   </div>
                   <div>
@@ -99,7 +99,7 @@ export default function AboutPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <div className="bg-[#ED2024] rounded-lg p-3">
+                  <div className="bg-[#ED2024] rounded-[2px] p-3">
                     <FiTrendingUp className="h-6 w-6 text-white" />
                   </div>
                   <div>
@@ -108,7 +108,7 @@ export default function AboutPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <div className="bg-[#ED2024] rounded-lg p-3">
+                  <div className="bg-[#ED2024] rounded-[2px] p-3">
                     <FiAward className="h-6 w-6 text-white" />
                   </div>
                   <div>
@@ -134,7 +134,7 @@ export default function AboutPage() {
             {stats.map((stat, index) => (
               <div
                 key={index}
-                className="bg-white rounded-lg p-6 text-center border border-gray-200"
+                className="bg-white rounded-[2px] p-6 text-center border border-gray-200"
               >
                 <div className="text-3xl sm:text-4xl font-bold text-[#ED2024] mb-2">
                   {stat.number}
@@ -166,9 +166,9 @@ export default function AboutPage() {
               return (
                 <div
                   key={index}
-                  className="bg-white rounded-lg p-6 border border-gray-200"
+                  className="bg-white rounded-[2px] p-6 border border-gray-200"
                 >
-                  <div className="bg-[#ED2024] rounded-lg p-3 w-fit mb-4">
+                  <div className="bg-[#ED2024] rounded-[2px] p-3 w-fit mb-4">
                     <IconComponent className="h-6 w-6 text-white" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-3">{value.title}</h3>

@@ -172,7 +172,7 @@ export default function ExamPage() {
                 alt="ExpertBatch Logo"
                 width={201}
                 height={32}
-                className="h-8 w-auto"
+                className="h-[1.875rem] w-auto"
               />
             </div>
           </div>
@@ -243,7 +243,7 @@ export default function ExamPage() {
                 alt="ExpertBatch Logo"
                 width={201}
                 height={32}
-                className="h-8 w-auto"
+                className="h-[1.875rem] w-auto"
               />
             </div>
           </div>
@@ -339,7 +339,7 @@ export default function ExamPage() {
                 alt="ExpertBatch Logo"
                 width={201}
                 height={32}
-                className="h-8 w-auto"
+                className="h-[1.875rem] w-auto"
               />
               <h1 className="text-lg font-semibold text-primary-black">
                 {skill?.name || 'Exam'}

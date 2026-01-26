@@ -14,6 +14,7 @@ import {
   FiUsers,
   FiPlay,
   FiEye,
+  FiEyeOff,
   FiZap,
   FiShield,
   FiTarget,
@@ -37,6 +38,29 @@ export default function TestDetailsPage() {
   const [skill, setSkill] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  
+  // Login/Signup Modal State
+  const [activeTab, setActiveTab] = useState('login'); // 'login' or 'signup'
+  
+  // Login state
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [showLoginPassword, setShowLoginPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  
+  // Signup state
+  const [signupFirstName, setSignupFirstName] = useState('');
+  const [signupLastName, setSignupLastName] = useState('');
+  const [signupEmail, setSignupEmail] = useState('');
+  const [signupPassword, setSignupPassword] = useState('');
+  const [signupConfirmPassword, setSignupConfirmPassword] = useState('');
+  const [showSignupPassword, setShowSignupPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  
+  // Auth state
+  const [authError, setAuthError] = useState('');
+  const [authLoading, setAuthLoading] = useState(false);
 
   // Generic dummy data for all skills - same data for every test
   const getGenericSkillData = (skillName) => ({
@@ -113,8 +137,98 @@ export default function TestDetailsPage() {
   }, [skillName]);
 
   const handleStartAssessment = () => {
-    // Show payment required modal
-    setShowPaymentModal(true);
+    // Show login modal
+    setShowLoginModal(true);
+  };
+  
+  const handleCloseLoginModal = () => {
+    setShowLoginModal(false);
+    setAuthError('');
+    setActiveTab('login');
+  };
+  
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setAuthError('');
+    setAuthLoading(true);
+
+    // Frontend only - save dummy token and user data
+    try {
+      // Generate dummy token
+      const dummyToken = 'dummy_token_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+      
+      // Create dummy user data
+      const dummyUser = {
+        id: '1',
+        firstName: loginEmail.split('@')[0] || 'User',
+        lastName: 'Student',
+        username: loginEmail.split('@')[0] || 'user',
+        email: loginEmail,
+        role: 'student'
+      };
+
+      // Save to localStorage (session)
+      localStorage.setItem('token', dummyToken);
+      localStorage.setItem('user', JSON.stringify(dummyUser));
+
+      // Simulate loading delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Close modal and redirect to payment
+      setShowLoginModal(false);
+      router.push(`/test-library/${encodeURIComponent(skillName)}/payment`);
+    } catch (err) {
+      setAuthError('Login failed. Please try again.');
+      setAuthLoading(false);
+    }
+  };
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    setAuthError('');
+    
+    // Validation
+    if (signupPassword !== signupConfirmPassword) {
+      setAuthError('Passwords do not match');
+      return;
+    }
+    
+    if (signupPassword.length < 6) {
+      setAuthError('Password must be at least 6 characters long');
+      return;
+    }
+    
+    setAuthLoading(true);
+    
+    // Frontend only - save dummy token and user data
+    try {
+      // Generate dummy token
+      const dummyToken = 'dummy_token_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+      
+      // Create dummy user data
+      const dummyUser = {
+        id: '1',
+        firstName: signupFirstName || 'User',
+        lastName: signupLastName || 'Student',
+        username: signupEmail.split('@')[0] || 'user',
+        email: signupEmail,
+        role: 'student'
+      };
+
+      // Save to localStorage (session)
+      localStorage.setItem('token', dummyToken);
+      localStorage.setItem('user', JSON.stringify(dummyUser));
+
+      // Simulate loading delay
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      // Close modal and redirect to payment
+      setShowLoginModal(false);
+      router.push(`/test-library/${encodeURIComponent(skillName)}/payment`);
+    } catch (err) {
+      setAuthError('Signup failed. Please try again.');
+      setAuthLoading(false);
+    }
   };
 
   const handlePreviewQuestions = () => {
@@ -504,6 +618,273 @@ export default function TestDetailsPage() {
                 Proceed to Payment
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Login/Signup Modal */}
+      {showLoginModal && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 overflow-y-auto">
+          <div className="bg-white border border-gray-200 p-6 sm:p-8 max-w-2xl w-full mx-4 my-8 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-start justify-between mb-6">
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
+                {activeTab === 'login' ? 'Login to Continue' : 'Create Account'}
+              </h2>
+              <button
+                onClick={handleCloseLoginModal}
+                className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
+              >
+                <FiX className="h-6 w-6" />
+              </button>
+            </div>
+
+            {/* Tab Switcher */}
+            <div className="flex gap-2 mb-6 border-b border-gray-200">
+              <button
+                onClick={() => {
+                  setActiveTab('login');
+                  setAuthError('');
+                }}
+                className={`px-4 py-2 font-semibold text-sm transition-colors ${
+                  activeTab === 'login'
+                    ? 'text-[#ED2024] border-b-2 border-[#ED2024]'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                Login
+              </button>
+              <button
+                onClick={() => {
+                  setActiveTab('signup');
+                  setAuthError('');
+                }}
+                className={`px-4 py-2 font-semibold text-sm transition-colors ${
+                  activeTab === 'signup'
+                    ? 'text-[#ED2024] border-b-2 border-[#ED2024]'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                Sign Up
+              </button>
+            </div>
+
+            {authError && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 mb-6">
+                <div className="font-medium">{authError}</div>
+              </div>
+            )}
+
+            {/* Login Form */}
+            {activeTab === 'login' && (
+              <form onSubmit={handleLogin} className="space-y-5">
+                <div>
+                  <h3 className="text-[24px] font-semibold text-gray-900 mb-2">
+                    Login to your ExpertBatch account
+                  </h3>
+                </div>
+
+                <div>
+                  <label htmlFor="modalLoginEmail" className="block text-sm font-medium text-gray-700 mb-2">
+                    Email Address
+                  </label>
+                  <input
+                    id="modalLoginEmail"
+                    type="email"
+                    value={loginEmail}
+                    onChange={(e) => setLoginEmail(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300"
+                    placeholder="Email Address"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="modalLoginPassword" className="block text-sm font-medium text-gray-700 mb-2">
+                    Password
+                  </label>
+                  <div className="relative">
+                    <input
+                      id="modalLoginPassword"
+                      type={showLoginPassword ? 'text' : 'password'}
+                      value={loginPassword}
+                      onChange={(e) => setLoginPassword(e.target.value)}
+                      className="w-full px-4 pr-12 py-3 border border-gray-300"
+                      placeholder="Password"
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowLoginPassword(!showLoginPassword)}
+                      className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 z-10"
+                    >
+                      {showLoginPassword ? <FiEyeOff className="h-5 w-5" /> : <FiEye className="h-5 w-5" />}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id="modalRememberMe"
+                      checked={rememberMe}
+                      onChange={(e) => setRememberMe(e.target.checked)}
+                      className="border-gray-300 text-[#ED2024] cursor-pointer"
+                    />
+                    <label htmlFor="modalRememberMe" className="ml-2 text-sm text-gray-700 cursor-pointer">
+                      Remember me
+                    </label>
+                  </div>
+                  <Link href="/forgot-password" className="text-sm text-[#ED2024] font-semibold hover:text-[#C91A1A] transition-colors">
+                    Forgot Password?
+                  </Link>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={authLoading}
+                  className="w-full px-6 py-3 bg-[#ED2024] text-white font-semibold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {authLoading ? 'Loading...' : 'Login to ExpertBatch'}
+                </button>
+              </form>
+            )}
+
+            {/* Signup Form */}
+            {activeTab === 'signup' && (
+              <form onSubmit={handleSignup} className="space-y-5">
+                <div>
+                  <h3 className="text-[24px] font-semibold text-gray-900 mb-2">
+                    Create your ExpertBatch account
+                  </h3>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="modalSignupFirstName" className="block text-sm font-medium text-gray-700 mb-2">
+                      First Name
+                    </label>
+                    <input
+                      id="modalSignupFirstName"
+                      type="text"
+                      value={signupFirstName}
+                      onChange={(e) => setSignupFirstName(e.target.value)}
+                      className="w-full px-4 py-3 border border-gray-300"
+                      placeholder="John"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="modalSignupLastName" className="block text-sm font-medium text-gray-700 mb-2">
+                      Last Name
+                    </label>
+                    <input
+                      id="modalSignupLastName"
+                      type="text"
+                      value={signupLastName}
+                      onChange={(e) => setSignupLastName(e.target.value)}
+                      className="w-full px-4 py-3 border border-gray-300"
+                      placeholder="Doe"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="modalSignupEmail" className="block text-sm font-medium text-gray-700 mb-2">
+                    Email Address
+                  </label>
+                  <input
+                    id="modalSignupEmail"
+                    type="email"
+                    value={signupEmail}
+                    onChange={(e) => setSignupEmail(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300"
+                    placeholder="your.email@example.com"
+                    required
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="modalSignupPassword" className="block text-sm font-medium text-gray-700 mb-2">
+                      Password
+                    </label>
+                    <div className="relative">
+                      <input
+                        id="modalSignupPassword"
+                        type={showSignupPassword ? 'text' : 'password'}
+                        value={signupPassword}
+                        onChange={(e) => setSignupPassword(e.target.value)}
+                        className="w-full px-4 pr-12 py-3 border border-gray-300"
+                        placeholder="At least 6 characters"
+                        required
+                        minLength={6}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowSignupPassword(!showSignupPassword)}
+                        className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 z-10"
+                      >
+                        {showSignupPassword ? <FiEyeOff className="h-5 w-5" /> : <FiEye className="h-5 w-5" />}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="modalSignupConfirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
+                      Confirm Password
+                    </label>
+                    <div className="relative">
+                      <input
+                        id="modalSignupConfirmPassword"
+                        type={showConfirmPassword ? 'text' : 'password'}
+                        value={signupConfirmPassword}
+                        onChange={(e) => setSignupConfirmPassword(e.target.value)}
+                        className="w-full px-4 pr-12 py-3 border border-gray-300"
+                        placeholder="Confirm your password"
+                        required
+                        minLength={6}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 z-10"
+                      >
+                        {showConfirmPassword ? <FiEyeOff className="h-5 w-5" /> : <FiEye className="h-5 w-5" />}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-start">
+                  <input
+                    type="checkbox"
+                    id="modalTerms"
+                    className="mt-1 border-gray-300 text-[#ED2024]"
+                    required
+                  />
+                  <label htmlFor="modalTerms" className="ml-2 text-sm text-gray-600">
+                    I agree to the{' '}
+                    <Link href="#" className="text-[#ED2024]">
+                      Terms of Service
+                    </Link>{' '}
+                    and{' '}
+                    <Link href="#" className="text-[#ED2024]">
+                      Privacy Policy
+                    </Link>
+                  </label>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={authLoading}
+                  className="w-full px-6 py-3 bg-[#ED2024] text-white font-semibold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {authLoading ? 'Loading...' : 'Create Account'}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       )}

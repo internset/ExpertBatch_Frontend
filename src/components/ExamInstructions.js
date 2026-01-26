@@ -19,7 +19,7 @@ export default function ExamInstructions({ skill, questions, onStartExam, error 
               alt="ExpertBatch Logo"
               width={201}
               height={32}
-              className="h-8 w-auto"
+              className="h-[1.875rem] w-auto"
             />
           </div>
         </div>

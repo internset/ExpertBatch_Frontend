@@ -80,7 +80,7 @@ export default function ExamPortalPage() {
                 alt="ExpertBatch Logo"
                 width={201}
                 height={32}
-                className="h-8 w-auto"
+                className="h-[1.875rem] w-auto"
               />
               <h1 className="text-xl font-semibold text-primary-black">Exam Portal</h1>
             </div>

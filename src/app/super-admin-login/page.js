@@ -57,7 +57,7 @@ export default function LoginPage() {
               width={201}
               height={32}
               priority
-              className="h-8 w-auto"
+              className="h-[1.875rem] w-auto"
             />
           </div>
           <h1 className="text-2xl font-bold text-center mb-6 text-primary-black">

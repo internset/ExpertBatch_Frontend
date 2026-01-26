@@ -38,7 +38,7 @@ export default function Navigation() {
                 width={201}
                 height={32}
                 className="w-auto"
-                style={{ height: '2.1875rem' }}
+                style={{ height: '1.875rem' }}
                 priority
               />
             </button>
@@ -100,7 +100,7 @@ export default function Navigation() {
                     width={201}
                     height={32}
                     className="w-auto"
-                    style={{ height: '2.1875rem' }}
+                    style={{ height: '1.875rem' }}
                   />
                   <button
                     onClick={() => setMobileMenuOpen(false)}

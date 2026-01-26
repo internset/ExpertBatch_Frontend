@@ -88,7 +88,7 @@ export default function Sidebar() {
                   width={201}
                   height={32}
                   priority
-                  className="h-6 w-auto"
+                  className="h-[1.875rem] w-auto"
                 />
               </div>
             ) : (
@@ -99,7 +99,7 @@ export default function Sidebar() {
                   width={32}
                   height={32}
                   priority
-                  className="h-6 w-6"
+                  className="h-[1.875rem] w-[1.875rem]"
                 />
               </div>
             )}
